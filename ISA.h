@@ -12,8 +12,8 @@ typedef enum {
     OUT  = 07,   // Output ACC value                           Class: I/O    
 
     /* Memory Instructions */
-    LOAD = 01,   // Load value from memory into ACC            Class: Mem
-    STORE = 02,  // Store ACC value into memory                Class: Mem
+    LDD = 01,   // Load value from memory into ACC            Class: Mem
+    STR = 02,  // Store ACC value into memory                Class: Mem
 
     /* Arithmetic Instructions */
     ADD  = 03,   // Add memory value into ACC                  Class: Arth
