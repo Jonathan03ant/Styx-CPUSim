@@ -20,8 +20,8 @@ typedef struct {
 } General_Register;
 
 typedef struct {
-    Special_Register isp_rgstr;                          //Special Purpose Registers
-    General_Register ign_rgst;                           //General Registers
+    Special_Register sp_rgstr;                          //Special Purpose Registers
+    General_Register gn_rgstr;                           //General Registers
 
 } Registers;
 
