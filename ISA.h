@@ -8,7 +8,7 @@
 
 typedef enum {
     /* I/O Instructions */
-    INP  = 1,     // Input number into ACC                        Class: I/O
+    INP  = 19,     // Input number into ACC                        Class: I/O
     OUT  = 99,    // Output ACC value                             Class: I/O    
 
     /* Memory Instructions */
@@ -31,6 +31,8 @@ typedef enum {
     BRN  = 35,    // Branch if ACC < 0                            Class: Ctl
 
     /* Execution Control */
+    NOP  = 59,    // No operation
+    INT  = 69,    // Interrupt
     HLT  = 79,    // Halt execution                               Class: Exe
     ERR  = 89,    // Error                                        Class: Exe
 } ISA;
