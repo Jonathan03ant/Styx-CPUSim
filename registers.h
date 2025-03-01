@@ -1,5 +1,7 @@
 #ifndef REGISTERS_H
 #define REGISTERS_H
+#include "stdbool.h"
+
 
 typedef struct {
     int PC;                                      //Program Counter: Stores the address of the next instruction to be FDE'ed
@@ -12,7 +14,7 @@ typedef struct {
 
 typedef struct {
     int value;
-    int in_use;
+    bool free;
 } __cpu_Gen_rgstr;
 
 typedef struct {
@@ -36,6 +38,8 @@ int  get_cpu_general_register(const Registers *regs, int reg_index);
 int  set_cpu_special_register( Registers *regs, const char *reg_name, int value);
 int  set_cpu_general_register(Registers *regs, int reg_index, int value);
 
-
+/*
+function to find a gen register not in use
+*/
 
 #endif //REGISTER_H

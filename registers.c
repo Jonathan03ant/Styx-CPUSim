@@ -24,7 +24,7 @@ void init_registers (Registers *regs)
     for (int i = 0; i < 10; i++)
     {
         regs->_cpu_gn_rgstr.R->value = 0;
-        regs->_cpu_gn_rgstr.R->in_use = 0;
+        regs->_cpu_gn_rgstr.R->free = true;
     }
 }
 
@@ -59,7 +59,7 @@ void print_registers(const Registers *regs) {
         printf("| R%-3d | %5d |   %-3s  |\n",
                i,
                regs->_cpu_gn_rgstr.R[i].value,
-               regs->_cpu_gn_rgstr.R[i].in_use ? "YES" : "NO");
+               regs->_cpu_gn_rgstr.R[i].free ? "NO" : "YES");
     }
     printf("-------------------------------------------\n");
 
@@ -79,12 +79,17 @@ int  get_cpu_special_registers(const Registers *regs, const char *reg_name)
     if (strcmp(reg_name, "UTG") == 0)
         return regs->_cpu_sp_rgstr.UTG;
 
-    // Error handling for unknown register name
-    printf("__ERR_RGSTR: unknown register name '%s'\n, reg_name");
+    // Error handling for unknown register name 
+    printf("__ERR_RGSTR_sp: unknown register name '%s'\n", reg_name);
     return -1;
 }
 
-int get_cpu_general_registers()
+int get_cpu_general_registers(Registers *regs, int reg_index)
 {
-
+    if (reg_index >= 10 || reg_index < 0)
+    {
+        printf("__ERR_RGSTR_gn: unknown register index '%d'\n", reg_index);
+        return -1;
+    }
+    return regs->_cpu_gn_rgstr.R[reg_index].value;
 }
