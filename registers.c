@@ -141,3 +141,15 @@ int  set_cpu_special_register(Registers *regs, char *reg_name, int value)
     return -1;  
 
 }
+
+int set_cpu_general_register (Registers *regs, int reg_index, int value)
+{
+    if (reg_index >= 10 || reg_index < 0)
+    {
+        printf("__ERR_RGSTR_gn: unknown register index '%d'\n", reg_index);
+        return -1;
+    }
+    
+    regs->_cpu_gn_rgstr.R[reg_index].value = value;
+    return 0;
+}
