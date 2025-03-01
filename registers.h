@@ -35,7 +35,7 @@ void print_registers(const Registers *regs);
 int  get_cpu_special_registers(const Registers *regs, const char *reg_name);
 int  get_cpu_general_register(const Registers *regs, int reg_index); 
 
-int  set_cpu_special_register( Registers *regs, const char *reg_name, int value);
+int  set_cpu_special_register(Registers *regs, const char *reg_name, int value);
 int  set_cpu_general_register(Registers *regs, int reg_index, int value);
 
 /*

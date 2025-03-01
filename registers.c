@@ -76,6 +76,8 @@ int  get_cpu_special_registers(const Registers *regs, const char *reg_name)
         return regs->_cpu_sp_rgstr.MAR;
     if (strcmp(reg_name, "MDR") == 0)
         return regs->_cpu_sp_rgstr.MDR;
+    if (strcmp(reg_name, "CIR") == 0)
+        return regs->_cpu_sp_rgstr.CIR;
     if (strcmp(reg_name, "UTG") == 0)
         return regs->_cpu_sp_rgstr.UTG;
 
@@ -84,12 +86,58 @@ int  get_cpu_special_registers(const Registers *regs, const char *reg_name)
     return -1;
 }
 
-int get_cpu_general_registers(Registers *regs, int reg_index)
+
+int get_cpu_general_register(const Registers *regs, int reg_index)
 {
     if (reg_index >= 10 || reg_index < 0)
     {
         printf("__ERR_RGSTR_gn: unknown register index '%d'\n", reg_index);
         return -1;
     }
+
     return regs->_cpu_gn_rgstr.R[reg_index].value;
+}
+
+
+int  set_cpu_special_register(Registers *regs, char *reg_name, int value)
+{
+    if (strcmp(reg_name, "PC")  == 0)
+    {
+        regs->_cpu_sp_rgstr.PC = value;
+        return 0;
+    }
+        
+    if (strcmp(reg_name, "ACC")  == 0)
+    {
+        regs->_cpu_sp_rgstr.ACC = value;
+        return 0;
+    }
+
+    if (strcmp(reg_name, "MAR")  == 0)
+    {
+        regs->_cpu_sp_rgstr.MAR = value;
+        return 0;
+    }
+        
+    if (strcmp(reg_name, "MDR")  == 0)
+    {
+        regs->_cpu_sp_rgstr.MDR = value;
+        return 0;
+    }
+
+    if (strcmp(reg_name, "CIR")  == 0)
+    {
+        regs->_cpu_sp_rgstr.CIR = value;
+        return 0;
+    }
+    
+    if (strcmp(reg_name, "UTG")  == 0)
+    {
+        regs->_cpu_sp_rgstr.UTG = value;
+        return 0;
+    }
+    
+    printf("__ERR_RGSTR_sp: Can't set Register!\nunknown register name '%s'\n", reg_name);
+    return -1;  
+
 }
