@@ -11,8 +11,8 @@ typedef struct {
 void init_RAM (RAM *ram);
 int read_memory_cell(const RAM *ram, int index);
 int write_to_memory_cell(RAM *ram, int value);
-void print_memory_cell(RAM* ram, int cell);
-void print_RAM(RAM *ram);
+void print_memory_cell(const RAM* ram, int cell);
+void print_RAM(const RAM *ram);
 int load_program(RAM *ram, const int program[], int size);
 
 #endif SIM_RAM_H
