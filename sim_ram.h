@@ -4,10 +4,17 @@
 #define RAM_SIZE 100            //We will have 99 addressable cells, (100 inc null pointer)
 
 typedef struct {
-    int memory_cell [RAM_SIZE];
+    int value; //stores instruction/data opr + opc
+    int in_use; // 1 if cell is in use and 0 if not
+}MemoryCell;
+
+typedef struct {
+    MemoryCell cell[RAM_SIZE];
 }RAM;
 
 /*
+*FUTURE: Ideally RAM should be an entity where it gives our CPU unlimited amount of RAM from the OS
+
     * RAM cells are where instructions and datas. 
     * They are loaded by the compiler
         * ISA instructions will be compiled in to numeric form

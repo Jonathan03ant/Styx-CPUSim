@@ -8,7 +8,8 @@ void init_RAM(RAM *ram)
 {
     for (int i = 0; i < RAM_SIZE; i++)
     {
-        ram->memory_cell[i] = 0;
+        ram->cell[i].value = 0;
+        ram->cell[i].in_use = 0;
     }
 }
 
@@ -20,7 +21,7 @@ int read_memory_cell(const RAM *ram, int index)
         return -1;
     }
 
-    return ram->memory_cell[index];
+    return ram->cell[index].value;
 }
 
 int write_to_memory_cell(RAM *ram, int index, int value)
@@ -31,20 +32,33 @@ int write_to_memory_cell(RAM *ram, int index, int value)
         return -1;
     }
     
-    ram->memory_cell[index] = value;
+    ram->cell[index].value = value;
     return 0;
 }
 
 
 void print_RAM(const RAM *ram)
 {
-    printf("┌───── SIMULATED RAM ─────┐\n");
-    printf("| Addr | Value            |\n");
-    printf("|------|------------------|\n");
+    printf("┌─────── SIMULATED RAM ───────┐\n");
+    printf("| Addr | Value  | In Use      |\n");
+    printf("|------|--------|-------------|\n");
 
     for (int i = 0; i < RAM_SIZE; i++) {
-        printf("| %4d  | [%04d]           |\n", i, ram->memory_cell[i]);
+        printf("| %4d | [%04d] |    %s       |\n",
+               i,
+               ram->cell[i].value,
+               ram->cell[i].in_use ? "YES" : "NO");
     }
 
-    printf("└─────────────────────────┘\n");
+    printf("└─────────────────────────────┘\n");
+}
+
+
+int load_program(RAM *ram, const int program[], int size)
+{
+    //check if RAM has enough available size
+        // if not return error
+    //get the index of the ram, for now lets assume we neeed a staight cell space(not jumpig)
+    //store the program
+    //return the first pointer of the program start
 }
