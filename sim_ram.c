@@ -53,7 +53,10 @@ void print_RAM(const RAM *ram)
     printf("└─────────────────────────────┘\n");
 }
 
-
+//First fit memory allocation algorithm for now
+    // check start = 0, look Ram[0 + program size]
+    // if we have in use, skip
+        // then try start = 1, look Ram[1 + program size]
 int load_program(RAM *ram, const int program[], int size)
 {
     //check if RAM has enough available size
