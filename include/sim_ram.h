@@ -5,7 +5,7 @@
 
 typedef struct {
     int value; //stores instruction/data opr + opc
-    int in_use; // 1 if cell is in use and 0 if not
+    bool free; // 1 if cell is in use and 0 if not
 }MemoryCell;
 
 typedef struct {

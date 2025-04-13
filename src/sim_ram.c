@@ -2,6 +2,7 @@
 #include "ISA.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 
 void init_RAM(RAM *ram)
@@ -9,7 +10,7 @@ void init_RAM(RAM *ram)
     for (int i = 0; i < RAM_SIZE; i++)
     {
         ram->cell[i].value = 0;
-        ram->cell[i].in_use = 0;
+        ram->cell[i].free = true;
     }
 }
 
@@ -47,7 +48,7 @@ void print_RAM(const RAM *ram)
         printf("| %4d | [%04d] |    %s       |\n",
                i,
                ram->cell[i].value,
-               ram->cell[i].in_use ? "YES" : "NO");
+               ram->cell[i].free ? "YES" : "NO");
     }
 
     printf("└─────────────────────────────┘\n");
@@ -59,9 +60,9 @@ void print_RAM(const RAM *ram)
         // then try start = 1, look Ram[1 + program size]
 int load_program(RAM *ram, const int program[], int size)
 {
-    //check if RAM has enough available size
+    // check if RAM has enough available size
         // if not return error
-    //get the index of the ram, for now lets assume we neeed a staight cell space(not jumpig)
-    //store the program
-    //return the first pointer of the program start
+    // get the index of the ram, for now lets assume we neeed a staight cell space(not jumpig)
+    // store the program
+    // return the first pointer of the program start
 }
