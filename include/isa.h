@@ -1,41 +1,31 @@
 #ifndef ISA_H
 #define ISA_H
 
-/*
-    * This enum defines the Instruction Set Architecture (ISA) for the CPU.
-    * The ISA only defines the opcodes.
-*/
+// isa.h — Instruction Opcodes (4-bit ISA)
 
-typedef enum {
-    /* I/O Instructions */
-    INP  = 19,     // Input number into ACC                        Class: I/O
-    OUT  = 99,    // Output ACC value                             Class: I/O    
+#define ISA_OP_NOP_I        0x00  ///< No Operation (I-type)
+#define ISA_OP_MOV_R        0x01  ///< Move register-to-register (R-type)
+#define ISA_OP_LOAD_I       0x02  ///< Load from memory into register (I-type)
+#define ISA_OP_STORE_I      0x03  ///< Store register to memory (I-type)
 
-    /* Memory Instructions */
-    LDD = 10,     // Load value from memory into ACC              Class: Mem
-    STR = 20,     // Store ACC value into memory                  Class: Mem
-    PSH = 30,     // Push Value on to the stack                   Class: Mem
-    POP = 40,     // Pop Value from the stack                     Class: Mem
+#define ISA_OP_ADD_R        0x04  ///< Integer addition (R-type)
+#define ISA_OP_SUB_R        0x05  ///< Integer subtraction (R-type)
+#define ISA_OP_MUL_R        0x06  ///< Integer multiplication (R-type)
+#define ISA_OP_DIV_R        0x07  ///< Integer division (R-type)
 
-    /* Arithmetic Instructions */
-    ADD  = 12,    // Add memory value into ACC                    Class: Arth
-    SUB  = 22,    // Subtract memory value from ACC               Class: Arth
-    MUL  = 32,    // Multiply ACC by memory value                 Class: Arth
-    DIV  = 42,    // Divide ACC by memory value                   Class: Arth
-    CMP  = 52,    // Compare ACC with memory                      Class: Arth
+#define ISA_OP_ADDI_I       0x08  ///< Add immediate to register (I-type)
+#define ISA_OP_CMP_R        0x09  ///< Compare two registers (R-type), set flags
 
-    /* Control Flow Instructions */
-    JMP  = 5,     // Unconditional Jump                           Class: Ctl
-    BRZ  = 15,    // Jump only if ACC is zero                     Class: Ctl
-    BRP  = 25,    // Branch if ACC > 0                            Class: Ctl
-    BRN  = 35,    // Branch if ACC < 0                            Class: Ctl
+#define ISA_OP_JMP_J        0x0A  ///< Unconditional jump (J-type)
+#define ISA_OP_JZ_J         0x0B  ///< Jump if zero flag set (J-type)
+#define ISA_OP_JNZ_J        0x0C  ///< Jump if zero flag clear (J-type)
+#define ISA_OP_CALL_J       0x0D  ///< Call subroutine (J-type)
+#define ISA_OP_RET_J        0x0E  ///< Return from subroutine (J-type)
 
-    /* Execution Control */
-    NOP  = 59,    // No operation
-    INT  = 69,    // Interrupt
-    HLT  = 79,    // Halt execution                               Class: Exe
-    ERR  = 89,    // Error                                        Class: Exe
-} ISA;
+#define ISA_OP_IO_I         0x0F  ///< Input/output operation (I-type, shared IN/OUT)
+
+#define ISA_OP_COUNT        0x10  ///< Total number of defined opcodes (16 total)
+
 
 #endif // ISA_H
 
