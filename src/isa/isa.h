@@ -13,11 +13,13 @@ typedef enum {
     ISA_type_R
 }ISA_type;
 
+
+//statically defined instructions for all 16 of them 
 typedef struct {
     const char *memonic; 
     uint8_t opcode;   
     ISA_type instruction_type;
-    void *OPC_handler(void *operand);         // run time isa exe function pointer
+    void *EXE(void *operand);         // run time isa exe function pointer
 } ISA_entry;
 
 extern const ISA_entry ISA_table[ISA_OP_COUNT];
