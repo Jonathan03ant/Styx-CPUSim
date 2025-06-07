@@ -8,21 +8,21 @@
 
 
 typedef enum {
-    ISA_type_I,
-    ISA_type_J,
-    ISA_type_R
-}ISA_type;
+    Instruction_t_I,
+    Instruction_t_J,
+    Instruction_t_R
+}Instruction_t;
 
 
 //statically defined instructions for all 16 of them 
 typedef struct {
     const char *memonic; 
     uint8_t opcode;   
-    ISA_type instruction_type;
+    Instruction instruction_type;
     void *EXE(void *operand);         // run time isa exe function pointer
-} ISA_entry;
+} ISA_db;
 
-extern const ISA_entry ISA_table[ISA_OP_COUNT];
+extern const ISA_db ISA_table[ISA_OP_COUNT];
 
 typedef struct {
     uint8_t opcode;
@@ -31,7 +31,7 @@ typedef struct {
         OperandI i;
         OperandJ j;
     } operand;
-    const ISA_entry *entry;  // points to isa_table[opcode]
+    const ISA_db *entry;  // points to isa_table[opcode]
 } Instruction;
 
 
