@@ -27,9 +27,9 @@ typedef struct {
 typedef void (*OperandDecoder)(uint16_t raw_operand, void *OperandStruct);
 
 // Concrete decoder functions for each type
-void decode_operand_r(uint16_t raw, void *OperandStruct);
-void decode_operand_i(uint16_t raw, void *OperandStruct);
-void decode_operand_j(uint16_t raw, void *OperandStruct);
+void decode_operand_r(uint16_t raw, void *Out);
+void decode_operand_i(uint16_t raw, void *Out);
+void decode_operand_j(uint16_t raw, void *Out);
 
 // Dispatch table: indexed by operand type (R/I/J)
 extern OperandDecoder operand_decoder_table[OPERAND_T_COUNT];

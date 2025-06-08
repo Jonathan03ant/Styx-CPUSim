@@ -27,6 +27,9 @@
 #define ISA_OP_COUNT        0x10  ///< Total number of defined opcodes (16 total)
 
 #define OPERAND_T_COUNT     3
+
+
+
 typedef enum {
     Instruction_t_I,
     Instruction_t_J,
