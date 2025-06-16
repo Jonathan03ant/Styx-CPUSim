@@ -6,16 +6,19 @@
 #include <isa_if.h>
 #include <operand.h>
 
-//statically defined instructions for all 16 of them 
+
+//Blue Print
 typedef struct iSA_dbs {
     const char *memonic; 
     uint8_t opcode;   
     ISA_type instruction_type;
     void (*EXE)(void *operand);         // run time isa exe function pointer
-}ISA_dbs;
+}ISA_defn;
 
-extern const ISA_dbs ISA_table[ISA_OP_COUNT];
+//statically defined instructions for all 16 of them 
+extern const ISA_defn ISA_LUT[ISA_OP_COUNT];
 
+//Ins fetch by the CPU, operand is resolved.
 typedef struct {
     uint8_t opcode;
     union {
@@ -23,8 +26,10 @@ typedef struct {
         OperandI i;
         OperandJ j;
     } operand;
-    const ISA_dbs *entry;  // points to isa_table[opcode]
+    const ISA_defn *entry;  // points to isa_table[opcode]
 }ISA_rt;
 
 
 #endif //isa.h
+
+
