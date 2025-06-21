@@ -31,9 +31,9 @@
 
 
 typedef enum {
+    Instruction_t_R,
     Instruction_t_I,
     Instruction_t_J,
-    Instruction_t_R
 }ISA_type;
 
 #endif // ISA_IF_H

@@ -1,8 +1,17 @@
 #include "isa.h"
+#include "isa_if.h"
 #include "operand.h"
 
 
-void decode_operand_r(uint16_t raw, void *Out){
+OperandDecoder operand_decoder_table[OPERAND_T_COUNT] = 
+{
+    [Instruction_t_R] = decode_operand_r,
+    [Instruction_t_I] = decode_operand_i,
+    [Instruction_t_J] = decode_operand_j,
+};
+
+void decode_operand_r(uint16_t raw, void *Out)
+{
     OperandR *r = (OperandR *)Out;
     /*
         [opcode 4 bits] [raw 12 bits]
@@ -37,7 +46,8 @@ void decode_operand_r(uint16_t raw, void *Out){
 }
 
 
-void decode_operand_i(uint16_t raw, void *Out){
+void decode_operand_i(uint16_t raw, void *Out)
+{
     OperandI *i = (OperandI *)Out;
 
     i->rd = (raw >> 8) & 0xF;
@@ -46,7 +56,8 @@ void decode_operand_i(uint16_t raw, void *Out){
 
 }
 
-void decode_operand_j(uint16_t raw, void *Out){
+void decode_operand_j(uint16_t raw, void *Out)
+{
     OperandJ *j = (OperandJ *)Out;
     j->imm = raw;
 
