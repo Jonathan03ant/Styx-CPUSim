@@ -8,15 +8,15 @@
 
 
 //Blue Print
-typedef struct iSA_dbs {
+typedef struct {
     const char *memonic; 
     uint8_t opcode;   
     ISA_type instruction_type;
     void (*EXE)(void *operand);         // run time isa exe function pointer
-}ISA_defn;
+}ISA_t;
 
 //statically defined instructions for all 16 of them 
-extern const ISA_defn ISA_LUT[ISA_OP_COUNT];
+extern const ISA_t ISA_LUT[ISA_OP_COUNT];
 
 //Ins fetch by the CPU, operand is resolved.
 typedef struct {
@@ -26,7 +26,7 @@ typedef struct {
         OperandI i;
         OperandJ j;
     } operand;
-    const ISA_defn *entry;  // points to isa_table[opcode]
+    const ISA_t *entry;  // points to isa_table[opcode]
 }ISA_rt;
 
 
