@@ -3,13 +3,13 @@
 #include "stdbool.h"
 
 
-typedef struct {
-    int PC;                                      //Program Counter: Stores the address of the next instruction to be FDE'ed
-    int ACC;                                     //Accumulator: Stores Arthmetic and Logic Result
-    int MAR;                                     //Memory Address Register: Holds Address of Memory to be accessed
-    int MDR;                                     //Memory Data Register: Holds data read from or written to memory 
-    int CIR;                                     //Current Instruction Register: Holds fetched instruction
-    int UTG;                                     //My Own Register :D
+typedef enum {
+    Reg_PC,                                      //Program Counter: Stores the address of the next instruction to be FDE'ed
+    Reg_ACC,                                     //Accumulator: Stores Arthmetic and Logic Result
+    Reg_MAR,                                     //Memory Address Register: Holds Address of Memory to be accessed
+    Reg_MDR,                                     //Memory Data Register: Holds data read from or written to memory 
+    Reg_CIR,                                     //Current Instruction Register: Holds fetched instruction
+    Reg_FLAG                                     //FLAGG REG :D
 } __cpu_Special_Register;
 
 typedef struct {
