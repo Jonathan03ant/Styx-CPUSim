@@ -1,6 +1,6 @@
-#ifndef REGISTERS_H
-#define REGISTERS_H
-#include "stdbool.h"
+#ifndef SPECIAL_REG_H
+#define SPECIAL_REG_H
+#include <stdint.h>
 
 
 typedef enum {
@@ -9,37 +9,19 @@ typedef enum {
     Reg_MAR,                                     //Memory Address Register: Holds Address of Memory to be accessed
     Reg_MDR,                                     //Memory Data Register: Holds data read from or written to memory 
     Reg_CIR,                                     //Current Instruction Register: Holds fetched instruction
-    Reg_FLAG                                     //FLAGG REG :D
+    Reg_FLAG,                                    //FLAGG REG :D
+    Reg_COUNT
 } __cpu_Special_Register;
 
-typedef struct {
-    int value;
-    bool free;
-} __cpu_Gen_rgstr;
 
-typedef struct {
-    __cpu_Gen_rgstr R[10];                                   //Array of 10 general registers(R0-R9)
-} __cpu_General_Register;
+//function to initalzie
+//function to get reg value
+//function to set reg value
+//function to dump current status of regs
 
-typedef struct {
-    __cpu_Special_Register _cpu_sp_rgstr;                          //Special Purpose Registers
-    __cpu_General_Register _cpu_gn_rgstr;                           //General Registers
+void SPE_InitRegs(void);
+void SPE_GetReg(uint16_t spe_reg);
+void SPE_SetReg(__cpu_Special_Register reg, uint16_t value);
+void SPE_DumpRegs(void);
 
-} Registers;
-
-
-
-void init_registers(Registers *regs);
-void print_registers(const Registers *regs);
-
-int  get_cpu_special_registers(const Registers *regs, const char *reg_name);
-int  get_cpu_general_register(const Registers *regs, int reg_index); 
-
-int  set_cpu_special_register(Registers *regs, const char *reg_name, int value);
-int  set_cpu_general_register(Registers *regs, int reg_index, int value);
-
-/*
-function to find a gen register not in use
-*/
-
-#endif //REGISTER_H
+#endif //SPECIAL_REG_H
