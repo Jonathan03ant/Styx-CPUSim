@@ -20,7 +20,7 @@ typedef enum {
 //function to dump current status of regs
 
 void SPE_InitRegs(void);
-void SPE_GetReg(uint16_t spe_reg);
+uint16_t SPE_GetReg(__cpu_Special_Register reg);
 void SPE_SetReg(__cpu_Special_Register reg, uint16_t value);
 void SPE_DumpRegs(void);
 
