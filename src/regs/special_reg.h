@@ -3,7 +3,8 @@
 #include <stdint.h>
 
 
-typedef enum {
+typedef enum 
+{
     Reg_PC,                                      //Program Counter: Stores the address of the next instruction to be FDE'ed
     Reg_ACC,                                     //Accumulator: Stores Arthmetic and Logic Result
     Reg_MAR,                                     //Memory Address Register: Holds Address of Memory to be accessed
