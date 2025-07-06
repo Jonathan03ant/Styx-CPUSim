@@ -1,6 +1,7 @@
 #include "special_reg.h"
 
 static uint16_t SPE_Registers[Reg_COUNT];
+static uint16_t GEN_Registers[REG_COUNT_GEN]
 
 void SPE_initRegs(void)
 {
