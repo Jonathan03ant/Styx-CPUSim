@@ -7,6 +7,11 @@
 extern "C" {
 #endif
 
+/*
+    General Registers ID Enumeration (16 registers)
+    * From 0000 to 1111 
+    * Each register[i] is 16 bit addressable 
+*/
 typedef enum 
 {
     REG_Gen_R0,
@@ -29,20 +34,28 @@ typedef enum
 }__cpu_General_Register;
 
 
+/*
+    Register Context Snapshot
+*/
 typedef struct {
     uint16_t regs[REG_COUNT_GEN];
 }GenRegister_ctx; //Register context snapshot
 
 
-void GEN_InitRegs(void);
-bool Is_Valid(__cpu_General_Register reg);
+void GEN_InitRegs(void); //Reset
+bool Is_Valid(__cpu_General_Register reg); //Bound Check
+
+//Register Access API (CPU-ALU Facing)
 uint16_t GEN_GetReg(__cpu_General_Register reg);
 void GEN_SetReg(__cpu_General_Register reg, uint16_t value);
-void GEN_SaveContext(GenRegister_ctx *context); //copy entire register file in to ctx
-void GEN_LoadContext(const GenRegister_ctx *context); //Restore register context from ctx
-uint16_t *RegPtr(void); // get pointer to raw register array
+uint16_t *RegPtr(void); // RAW pointer to raw register array
 
-bool GEN_ParseRegs(uint8_t regindex, __cpu_General_Register *output); // given 4 bit register (0xF), retrun the enum register or false
+// Register Context Save/Restore
+void GEN_SaveContext(GenRegister_ctx *context); //Save full register state/context
+void GEN_LoadContext(const GenRegister_ctx *context); //Restore register state/context from ctx
+
+
+bool GEN_ParseRegs(uint8_t regindex, __cpu_General_Register *output); // given 4 bit register address (0xF), retrun the enum register or false
 
 void GEN_DumpRegs(void);
 
