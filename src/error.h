@@ -11,8 +11,8 @@ typedef enum {
     //more error enums to add later
 }ErrorCode_t;
 
-void error_raise(Error_t error_code, const char *err_msg, const char *file, int line);
+void error_raise(ErrorCode_t err_code, const char *err_msg, const char *err_file, int err_line);
 void error_clear(void);
 
-#define RAISE_ERROR(code, msg) error_raise(code, msg, __FILE__, __LINE__)
+#define RAISE_ERROR(code, msg) error_raise(code, msg, __FILE__, __LINE__) //ERROR MACRO
 #endif
