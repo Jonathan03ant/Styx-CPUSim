@@ -1,32 +1,47 @@
 #include "special_reg.h"
+#include "general_reg.h"
+#include "../error.h"
+#include <string.h>
 
-static uint16_t SPE_Registers[Reg_COUNT];
-static uint16_t GEN_Registers[REG_COUNT_GEN]
+// Live General Register File (16 X 16-bit)
+static GenRegister_ctx General_Registers;
 
-void SPE_initRegs(void)
+static inline bool reg_valid(cpu_General_Register reg) 
 {
-    for (int i = 0; i < Reg_COUNT; i++)
-    {
-        SPE_Registers[i] = 0;
-    }
+    return reg < REG_COUNT_GEN;
 }
 
-uint16_t SPE_GetReg(__cpu_Special_Register reg)
+void Gen_InitReg(void)
 {
-    if (reg >= Reg_COUNT)
-    {
-        return 0xFFF; // error handling maybe implemented later
-    }
-
-    return SPE_Registers[reg];
+    memset(&General_Registers, 0, sizeof(General_Registers));
 }
 
-void SPE_SetReg(__cpu_Special_Register reg, uint16_t value)
+
+bool IS_Valid(cpu_General_Register reg)
 {
-    if (reg >= Reg_COUNT)
-    {
-        return; 
+    return reg_valid(reg);
+}
+
+
+uint16_t GEN_GetReg(cpu_General_Register reg)
+{
+    if (!reg_valid(reg)) {
+        RAISE_ERROR(ERR_INVALID_REGISTER, "GEN_GetReg: invalid general register id");
+        return 0; 
     }
-    
-    SPE_Registers[reg] = value;
+    return General_Registers.regs[reg];
+}
+
+void GEN_SetReg(cpu_General_Register reg, uint16_t value)
+{
+    if (!reg_valid(reg)) {
+        RAISE_ERROR(ERR_INVALID_REGISTER, "GEN_SetReg: invalid general register id");
+        return;
+    }
+    General_Registers.regs[reg] = value;
+}
+
+uint16_t *RegPtr(void)
+{
+    return General_Registers.regs;
 }
