@@ -63,8 +63,8 @@ typedef struct {
 }SpecialRegisterFile;
 
 typedef struct {
-    GeneralRegisterFile general_reg;
-    SpecialRegisterFile special_reg;
+    GeneralRegisterFile general;
+    SpecialRegisterFile special;
 }CPURegisterFile;
 
 #ifdef __cplusplus

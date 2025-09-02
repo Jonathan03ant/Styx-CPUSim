@@ -15,15 +15,13 @@ void register_file_init(void);
 void register_file_reset(void);
 
 //General Register Operations
-bool is_valid_general_reg(GeneralRegisterID reg);
-uint16_t register_file_read_general_register(GeneralRegisterID reg);
-void register_file_write_general_register(GeneralRegisterID reg, uint16_t value);
+uint16_t register_file_read_general(GeneralRegisterID regID);
+void register_file_write_general(GeneralRegisterID regID, uint16_t value);
 uint16_t *register_file_get_general_array(void);
 
 //Special Registers Operations
-bool is_valid_special_reg(SpecialRegisterID reg);
-uint16_t register_file_read_special_reg(SpecialRegisterID reg);
-void register_file_write_special_register(SpecialRegisterID reg, uint16_t value);
+uint16_t register_file_read_special(SpecialRegisterID regID);
+void register_file_write_special(SpecialRegisterID regID, uint16_t value);
 
 //Context Mgmt, save/restore register state
 void register_file_save_context(CPURegisterFile *context);
