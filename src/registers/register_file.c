@@ -56,3 +56,23 @@ uint16_t *register_file_get_general_array(void)
     return cpu_registers.general.registers;
 }
 
+/*
+    * Special Register Operations
+*/
+unit16_t register_file_read_special(SpecialRegisterID regID)
+{
+    if (!is_general_register_valid(regID)){
+        RAISE_ERROR(ERR_INVALID_REGISTER, "register_file_read_special: Invalid Register ID (OutOfBound)");
+        return 0;
+    }
+    return cpu_registers.special.registers[regID];
+}
+
+void register_file_write_special(SpecialRegisterID regID, uint16_t value)
+{
+    if (!is_special_register_valid(regID)){
+        RAISE_ERROR(ERR_INVALID_REGISTER, "register_file_write_special: Invalid Register ID (OutOfBound)");
+        return;
+    }
+    cpu_registers.special.registers[regID] = value;
+}
