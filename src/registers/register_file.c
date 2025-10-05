@@ -76,3 +76,27 @@ void register_file_write_special(SpecialRegisterID regID, uint16_t value)
     }
     cpu_registers.special.registers[regID] = value;
 }
+
+/*
+    * Context Mgmt
+*/
+//Save current CPU register in to context
+void register_file_save_context(CPURegisterFile *context)
+{
+    if (context == NULL){
+        RAISE_ERROR(ERR_INTERNAL_ASSERTION, "register_file_save_context: null context pointer");
+        return;
+    }
+    memcpy(context, &cpu_registers, (CPURegisterFile));
+}
+
+//Load the context passed in to the current CPURegFile
+void register_file_load_context(CPURegisterFile *context)
+{
+    if (context == NULL){
+        RAISE_ERROR(ERR_INTERNAL_ASSERTION, "register_file_load_context: null context pointer");
+        return;
+    }
+    memcpy(&cpu_registers, context, sizeof(CPURegisterFile));
+}
+
