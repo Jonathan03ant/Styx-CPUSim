@@ -4,8 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 
-// Private Register File and helper checkings
-static CPURegisterFile cpu_registers;
+
 
 static inline bool is_general_register_valid(GeneralRegisterID reg)
 {
@@ -98,5 +97,27 @@ void register_file_load_context(CPURegisterFile *context)
         return;
     }
     memcpy(&cpu_registers, context, sizeof(CPURegisterFile));
+}
+
+/*
+    * Raw 8 bit instruction is passed
+    * The function extracts the opcode in to a valid general purpose regsiter ID
+*/
+bool register_file_parse_general_reg(uint8_t reg_bits, GeneralRegisterID *output)
+{
+    if (output == NULL) {
+        RAISE_ERROR(ERR_NULL_ARG, "register_file_parse_general_reg: null pointer to save parsed value");
+        return false;
+    }
+
+    //mask the 4 bits for 16 registers
+    uint8_t reg_index = reg_bits & 0x0F;
+    
+    if (reg_index >= GENERAL_REG_COUNT) {
+        return false;
+    }
+    
+    *output = (GeneralRegisterID)reg_index;
+    return true;
 }
 
