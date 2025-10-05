@@ -8,6 +8,7 @@ typedef enum {
     ERR_INVALID_MEM_ACCESS,
     ERR_ILLEGAL_INST,
     ERR_INTERNAL_ASSERTION,
+    ERR_NULL_ARG,
     //more error enums to add later
 }ErrorCode_t;
 
