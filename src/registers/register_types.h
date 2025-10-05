@@ -67,6 +67,8 @@ typedef struct {
     SpecialRegisterFile special;
 }CPURegisterFile;
 
+extern CPURegisterFile cpu_registers;
+
 #ifdef __cplusplus
 }
 #endif
