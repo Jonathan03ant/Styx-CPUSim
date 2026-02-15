@@ -44,6 +44,16 @@ typedef enum {
     OP_COUNT = 16
 } Opcode_e;
 
+/*----------------------------------------------------------------------------
+  * INSTRUCTION FORMATS
+  *----------------------------------------------------------------------------*/
+typedef enum {
+    INSN_FORMAT_R,          // R-type   [op:4][rd:4][rs1:4][rs2:4]
+    INSN_FORMAT_I_A,        // I-Type A [op:4][rd:4][imm:8] (ADDI, LUI)
+    INST_FORMAT_I_B,        // I-Type B [op:4][rd:4][rs:4][offset:4] (LOAD, STORE)
+    INSN_FORMAT_J,          // J-Type   [op:4][addr:12]
+    INSN_FORMAT_INVALID
+} InsnFormat_e;
 
 
 
