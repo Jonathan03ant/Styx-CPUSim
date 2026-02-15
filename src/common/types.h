@@ -35,7 +35,7 @@ typedef uint16_t word_t;
 typedef uint8_t opcode_t;
 
 // General Register address (4 bit, 0-15)
-typedef uint8_t regaddr_t;
+typedef uint8_t reg_t;
 
 // General Register value (16bit register content of GRGSTR pointer)
 typedef uint16_t regval_t;
