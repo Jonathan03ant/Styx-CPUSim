@@ -1,0 +1,58 @@
+#ifndef STYX_ISA_DEFS_H
+#define STYX_ISA_DEFS_H
+
+#include "types.h"
+
+/*============================================================================
+  * STYX ISA DEFINITIONS
+  *
+  * Pure ISA specification - opcodes, formats, field extraction
+  *============================================================================*/
+
+/*----------------------------------------------------------------------------
+  * OPCODE DEFINITIONS
+  *----------------------------------------------------------------------------*/
+typedef enum {
+    OP_NOP      = 0x0,      // I-Type A - No operation (ADDI S0, 0)
+
+    // Data Mgmt
+    OP_MOV      = 0x1,      // R-Type - Move register to register
+    OP_LOAD     = 0x2,      // I-Type B - Load from memory
+    OP_STORE    = 0x3,      // I-Type B - Store from memory
+
+    // Arithmetic
+    OP_ADD      = 0x4,      // R-Type - Addition
+    OP_SUB      = 0x5,      // R-Type - Subtraction
+    OP_MUL      = 0x6,      // R-Type - Multiplication
+    OP_DIV      = 0x7,      // R-Type - Division
+    OP_ADDI     = 0x8,      // I-Type A - Add immediate
+
+    // Comparision
+    OP_CMP      = 0x9,      // R-Type - Compare (set FLAGS)
+
+    // Control Flow
+    OP_JMP      = 0xA,      // J-Type - Unconditional jump
+    OP_JZ       = 0xB,      // J-Type - Jump if zero
+    OP_JNZ      = 0xC,      // J-Type - Jump if not zero
+    OP_CALL     = 0xD,      // J-Type - Call subroutine
+    OP_RET      = 0xE,      // J-Type - Return from subroutine
+
+    // Immediate
+    OP_LUI      = 0xF,      // I-Type A - Load upper immediate
+
+    // Count for bounds checking
+    OP_COUNT = 16
+} Opcode_e;
+
+
+
+
+
+
+
+
+
+
+
+
+#endif /* STYX_ISA_DEFS_H */
