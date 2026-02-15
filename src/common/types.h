@@ -41,7 +41,7 @@ typedef uint8_t regaddr_t;
 typedef uint16_t regval_t;
 
 /*----------------------------------------------------------------------------
-  * INSTRUCTION FIELD TYPE
+  * INSTRUCTION FIELD TYPES
   *----------------------------------------------------------------------------*/
 
 // 8-bit Immediate value (I-Type A)
@@ -51,4 +51,16 @@ typedef uint8_t imm8_t;
 typedef uint8_t offset4_t;
 
 // 12-bit address (J-Type)
-typedef uint16_t addr12_t
+typedef uint16_t addr12_t;
+
+/*----------------------------------------------------------------------------
+  * FLAG TYPES
+  *----------------------------------------------------------------------------*/
+
+// FLAGS register (4 bits used: Z, N, C, V)
+typedef uint16_t flags_t;
+
+// Individual flag bits
+typedef bool flag_bit_t;
+
+#endif /* STYX_TYPES_H */
