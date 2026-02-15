@@ -117,9 +117,11 @@ static inline offset4_t insn_get_i_b_offset(insn_t insn){
     return insn & 0xF;
 }
 
-
-
-
+// J-Type field extraction:
+// [op:4][addr:12]
+static inline addr12_t insn_get_j_addr(insn_t insn) {
+    return insn & 0xFFF;
+}
 
 
 #endif /* STYX_ISA_DEFS_H */
