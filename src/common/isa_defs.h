@@ -44,6 +44,7 @@ typedef enum {
     OP_COUNT = 16
 } Opcode_e;
 
+
 /*----------------------------------------------------------------------------
   * INSTRUCTION FORMATS
   *----------------------------------------------------------------------------*/
@@ -56,9 +57,34 @@ typedef enum {
 } InsnFormat_e;
 
 
+/*----------------------------------------------------------------------------
+  * FIELD EXTRACTION FUNCTIONS
+  *
+  * Styx instruction layout: [opcode:4][operands:12]
+  * Bits numbered 15 (MSB) down to 0 (LSB)
+  * Bit:  15 14 13 12 | 11 10 9 8 | 7 6 5 4 | 3 2 1 0
+            [ opcode ]  [  rd  ]     [ rs1 ]   [ rs2 ]
+  *----------------------------------------------------------------------------*/
 
+// Extract opcode (bits 15-12)
+static inline opcode_t insn_get_opcode(insn_t insn){
+    return (insn >> 12) & 0xF;
+}
 
+// R-type field extraction, [op:4][rd:4][rs1:4][rs2:4]; extract rd
+static inline reg_t insn_get_r_rs1(insn_t insn){
+    return (insn >> 8) & 0xF;
+}
 
+// R-type field extraction, [op:4][rd:4][rs1:4][rs2:4] extract rs1
+static inline reg_t insn_get_r_rs1(insn_t insn){
+    return (insn >> 4) & 0xF;
+}
+
+// R-type field extraction, [op:4][rd:4][rs1:4][rs2:4] extract rs2
+static inline reg_t insn_get_r_rs2(insn_t insn){
+    return insn & 0xF;
+}
 
 
 
