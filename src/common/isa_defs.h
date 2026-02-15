@@ -100,6 +100,23 @@ static inline imm8_t insn_get_i_a_imm(insn_t insn){
     return insn & 0xFF;
 }
 
+// I-Type B field extraction
+// [op:4][rd:4][rs:4][offset:4]
+// extract rd
+static inline reg_t insn_get_i_b_rd(insn_t insn){
+    return (insn >> 8) & 0xF;
+}
+
+// extract rs
+static inline reg_t insn_get_i_b_rs(insn_t insn){
+    return (insn >> 4) & 0xF;
+}
+
+//extract offset
+static inline offset4_t insn_get_i_b_offset(insn_t insn){
+    return insn & 0xF;
+}
+
 
 
 
