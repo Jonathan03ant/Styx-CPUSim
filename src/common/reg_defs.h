@@ -37,8 +37,30 @@
 #define REG_INIT_PC     0x0000  // PC initialized to entery point
 #define REG_INIT_FLAGS  0x0000  // FLAGS initialized to all clear
 
+/*----------------------------------------------------------------------------
+  * GENERAL PURPOSE REGISTERS
+  * 16 registers (S0-S15), each 16 bits wide
+  *----------------------------------------------------------------------------*/
+typedef enum {
+    REG_S0  = 0x0,    // Hardwired to zero
+    REG_S1  = 0x1,    // General purpose
+    REG_S2  = 0x2,    // General purpose
+    REG_S3  = 0x3,    // General purpose
+    REG_S4  = 0x4,    // General purpose
+    REG_S5  = 0x5,    // General purpose
+    REG_S6  = 0x6,    // General purpose
+    REG_S7  = 0x7,    // General purpose
+    REG_S8  = 0x8,    // General purpose
+    REG_S9  = 0x9,    // General purpose
+    REG_S10 = 0xA,    // General purpose
+    REG_S11 = 0xB,    // General purpose
+    REG_S12 = 0xC,    // General purpose
+    REG_S13 = 0xD,    // Stack Pointer (convention)
+    REG_S14 = 0xE,    // Frame/Heap Pointer (convention)
+    REG_S15 = 0xF,    // Return Address (convention)
 
-
+    REG_COUNT = 16    // Total number of GPRs
+} RegNum_e;
 
 
 #endif /* STYX_REG_DEFS_H */
