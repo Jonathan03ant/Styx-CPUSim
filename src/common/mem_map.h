@@ -61,9 +61,18 @@
 #define MEM_STACK_TOP        0xFFFF     // SP is initialized to this address
 
 /*----------------------------------------------------------------------------
+  * MEMORY PROTECTION MODE
+  * LOAD MODE: Code region writable during program loading
+  * EXECUTE MODE: Code region read only during execution phase
+  *----------------------------------------------------------------------------*/
+typedef enum {
+    MEM_LOAD_MODE,                      // Code region is writable
+    MEM_EXECUTE_MODE                    // Code region is read only
+} MemMode_e;
+
+/*----------------------------------------------------------------------------
   * ADDRESS VALIDATION FUNCTIONS
   *----------------------------------------------------------------------------*/
-
 static inline bool is_reserved_region(addr_t addr)
 {
     return addr >= MEM_RESERVED_BASE && addr <= MEM_RESERVED_END;
