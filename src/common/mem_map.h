@@ -23,23 +23,35 @@
   *----------------------------------------------------------------------------*/
 
 // Reserved Region: 0x0000 - 0x00FF (256 bytes)
-#define MEM_RESERVED_BASE     0x0000
-#define MEM_RESERVED_END      0x00FF
+#define MEM_RESERVED_BASE       0x0000
+#define MEM_RESERVED_END        0x00FF
 
 // Code Region: 0x0100 - 0x1FFF (~8 KB)
-#define MEM_CODE_BASE         0x0100
-#define MEM_CODE_END          0x1FFF
+#define MEM_CODE_BASE           0x0100
+#define MEM_CODE_END            0x1FFF
 
 // Data Region: 0x2000 - 0x7FFF (~24 KB)
-#define MEM_DATA_BASE        0x2000
-#define MEM_DATA_END         0x7FFF
+#define MEM_DATA_BASE           0x2000
+#define MEM_DATA_END            0x7FFF
 
 // Heap Region: 0x8000 - 0xDFFF (~24 KB)
-#define MEM_HEAP_BASE        0x8000
-#define MEM_HEAP_END         0xDFFF
+#define MEM_HEAP_BASE           0x8000
+#define MEM_HEAP_END            0xDFFF
 
 // Stack Region: 0xE000 - 0xFFFF (~8 KB)
-#define MEM_STACK_BASE       0xE000
-#define MEM_STACK_END        0xFFFF
+#define MEM_STACK_BASE          0xE000
+#define MEM_STACK_END           0xFFFF
 
+/*----------------------------------------------------------------------------
+  * MEMORY REGION SIZES
+  *
+  * Calculated from boundaries (END - BASE + 1)
+  * All regions use inclusive addressing
+  *----------------------------------------------------------------------------*/
+#define MEM_TOTAL_SIZE          0x10000 // 65536 bytes (64 KB)
+#define MEM_RESERVED_SIZE       (MEM_RESERVED_END - MEM_RESERVED_BASE + 1)  // 256 bytes
+#define MEM_CODE_SIZE           (MEM_CODE_END - MEM_CODE_BASE + 1)          // 7936 bytes (~8 KB)
+#define MEM_DATA_SIZE           (MEM_DATA_END - MEM_HEAP_BASE + 1)          // 24576 bytes (~24 KB)
+#define MEM_HEAP_SIZE           (MEM_HEAP_END - MEM_HEAP_BASE + 1)          // 24576 bytes (~24 KB)
+#define MEM_STACK_SIZE          (MEM_STACK_END - MEM_STACK_BASE + 1)        // 8192 bytes (~8 KB)
 #endif /* STYX_MEM_MAP */
