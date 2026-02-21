@@ -44,7 +44,6 @@
 
 /*----------------------------------------------------------------------------
   * MEMORY REGION SIZES
-  *
   * Calculated from boundaries (END - BASE + 1)
   * All regions use inclusive addressing
   *----------------------------------------------------------------------------*/
@@ -54,4 +53,44 @@
 #define MEM_DATA_SIZE           (MEM_DATA_END - MEM_HEAP_BASE + 1)          // 24576 bytes (~24 KB)
 #define MEM_HEAP_SIZE           (MEM_HEAP_END - MEM_HEAP_BASE + 1)          // 24576 bytes (~24 KB)
 #define MEM_STACK_SIZE          (MEM_STACK_END - MEM_STACK_BASE + 1)        // 8192 bytes (~8 KB)
+
+/*----------------------------------------------------------------------------
+  * SPECIAL ADDRESSES
+  *----------------------------------------------------------------------------*/
+#define MEM_ENTRY_POINT      0x0000     // PC is initialized to this address
+#define MEM_STACK_TOP        0xFFFF     // SP is initialized to this address
+
+/*----------------------------------------------------------------------------
+  * ADDRESS VALIDATION FUNCTIONS
+  *----------------------------------------------------------------------------*/
+
+static inline bool is_reserved_region(addr_t addr)
+{
+    return addr >= MEM_RESERVED_BASE && addr <= MEM_RESERVED_END;
+}
+
+static inline bool is_code_region(addr_t addr)
+{
+    return addr >= MEM_CODE_BASE && addr <= MEM_CODE_END;
+}
+
+static inline bool is_data_region(addr_t addr)
+{
+    return addr >= MEM_DATA_BASE && addr <= MEM_DATA_END;
+}
+
+static inline bool is_heap_region(addr12_t addr)
+{
+    return addr >= MEM_HEAP_BASE && addr <= MEM_HEAP_END;
+}
+
+static inline bool is_stack_region(addr_t addr)
+{
+    return addr >= MEM_STACK_BASE && addr <= MEM_STACK_END;
+}
+
+static inline bool is_valid_region(addr_t addr)
+{
+     return addr <= MEM_STACK_END;
+}
 #endif /* STYX_MEM_MAP */
