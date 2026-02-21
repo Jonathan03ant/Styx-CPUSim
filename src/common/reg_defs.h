@@ -55,7 +55,7 @@ typedef enum {
     REG_S10 = 0xA,    // General purpose
     REG_S11 = 0xB,    // General purpose
     REG_S12 = 0xC,    // General purpose
-    REG_S13 = 0xD,    // Stack Pointer (convention)
+    REG_S13 = 0xD,    // Stack Pointer (convention)   //0xFFFF
     REG_S14 = 0xE,    // Frame/Heap Pointer (convention)
     REG_S15 = 0xF,    // Return Address (convention)
 
