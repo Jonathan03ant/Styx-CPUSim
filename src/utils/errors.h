@@ -8,7 +8,6 @@
   * STYX ERROR HANDLING
   * Comprehensive error handling module
   *============================================================================*/
-
 /*----------------------------------------------------------------------------
   * ERROR CODES
   *----------------------------------------------------------------------------*/
@@ -60,5 +59,27 @@ typedef struct {
     uint16_t context_value;
 } ErrorContext_t;
 
+const char *err_get_message(ErrorCode_e code);
+void err_print(ErrorCode_e code);
+ErrorContext_t err_create_context(ErrorCode_e code, const char *file, int line, uint16_t context_value);
+void err_print_context(const ErrorContext_t *ctx);
 
+// macro for creating error context with file/line automatically
+#define ERROR_CONTEXT(code, value) \
+    error_create_context((code), __FILE__, __LINE__, (value))
+
+static inline bool ops_sucess(ErrorCode_e code)
+{
+    return code == ERR_OK;
+}
+
+static inline bool ops_failed(ErrorCode_e code)
+{
+    return code != ERR_OK;
+}
+
+// TODO: Error callback registration (for custom error handlers)
+// TODO: Error logging to file
+// TODO: Error statistics/counting
+// TODO: Fatal error handling (abort simulation)
 #endif /* STYX_ERRORS_H */
