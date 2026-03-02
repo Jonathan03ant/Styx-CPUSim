@@ -107,3 +107,58 @@ error_t reg_write(RegisterFile_t *rf, reg_t reg_num, regval_t value)
     return ERR_OK;
 }
 
+// PC Read
+regval_t reg_read_pc(const RegisterFile_t *rf)
+{
+    if (rf == NULL) return 0x0000;
+    return rf->pc;
+}
+
+// Write to PC
+error_t  reg_write_pc(RegisterFile_t *rf, addr_t new_pc)
+{
+    if (rf == NULL) return ERR_NULL_POINTER;
+    rf->pc = new_pc;
+    return ERR_OK;
+}
+
+// Move PC (Increment)
+void reg_increment_pc(RegisterFile_t *rf)
+{
+    if (rf == NULL) return 0x0000;
+    rf->pc += 2; // Instructions are 16 bits = 2 bytes
+}
+
+flags_t reg_get_flags(const RegisterFile_t *rf)
+{
+    if (rf == NULL) return 0x0000;
+    rf->flags;
+}
+
+void reg_set_flags(RegisterFile_t *rf, flags_t flags)
+{
+    if (rf == NULL) return;
+    rf->flags = flags;
+}
+
+flag_bit_t reg_read_flag_bit(const RegisterFile_t *rf, flags_t flag_mask)
+{
+    if (rf == NULL) return 0;
+    reuurr (rf->flags & flag_mask) != 0? 1 : 0;
+}
+
+void reg_set_flag_bit(RegisterFile_t *rf, flags_t  flag_mask, flag_bit_t value)
+{
+    if (rf == NULL) return;
+    if (value){
+        rf->flags |= flag_mask;     // Set Bit
+    } else {
+        rf->flags &= ~flag_mask;    // Clear Bit
+    }
+}
+
+
+void reg_clear_flags(RegisterFile_t *rf)
+{
+    rf->flags = 0x0000;
+}

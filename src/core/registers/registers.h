@@ -21,23 +21,24 @@ void reg_reset(RegisterFile_t *rf);
 error_t reg_read(const RegisterFile_t *rf, reg_t reg_num, regval_t *value);
 error_t reg_write(RegisterFile_t *rf, reg_t reg_num, regval_t value);
 
-regval_t reg_read_pc(const RegisterFile_t *rf);                                                   // Read PC
-error_t  reg_write_pc(RegisterFile_t *rf, addr_t new_pc);                                   // Write new PC, in case of jump
+regval_t reg_read_pc(const RegisterFile_t *rf);                                                     // Read PC
+error_t  reg_write_pc(RegisterFile_t *rf, addr_t new_pc);                                           // Write new PC, in case of jump
 void     reg_increment_pc(RegisterFile_t *rf);
 
 // FLAGS REGISTER OPERATIONS
-flags_t reg_get_flags(const RegisterFile_t *rf);                                            // Get Flag Reg vale
-void    reg_set_flags(RegisterFile_t *rf, flags_t flags);                                   // Used by CMP, setting
-flag_bit_t reg_read_flag_bit(const RegisterFile_t *rf, flags_t flag_mask);                 // Read individual bits (ZNCV)
+flags_t reg_get_flags(const RegisterFile_t *rf);                                                    // Get Flag Reg vale
+void    reg_set_flags(RegisterFile_t *rf, flags_t flags);                                           // Used by CMP, setting
+flag_bit_t reg_read_flag_bit(const RegisterFile_t *rf, flags_t flag_mask);                          // Read individual bits (ZNCV)
 void    reg_set_flag_bit(RegisterFile_t *rf, flags_t  flag_mask, flag_bit_t value);
 void    reg_clear_flags(RegisterFile_t *rf);
 
-// DEBUGGING
+// Verify reg_enum
 static inline bool reg_is_valid_num(reg_t reg_num)
 {
     return reg_num < REG_COUNT;
 }
 
+// Verify reg_enum (zero)
 static inline bool reg_is_zero_reg(reg_t reg_num)
 {
       return reg_num == REG_S0;
