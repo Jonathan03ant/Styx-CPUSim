@@ -61,3 +61,49 @@ void reg_reset(RegisterFile_t *rf)
     reg_init(rf);
 }
 
+/*
+    * Read GNR reg address
+    * Returns ErrorCode_e
+    * S0 is hardware enforced
+*/
+error_t reg_read(const RegisterFile_t *rf, reg_t reg_num, regval_t *value)
+{
+    if (rf == NULL || reg_num == NULL){
+        return ERR_NULL_POINTER;
+    }
+
+    if (!reg_is_valid_num(reg_num)){
+        return ERR_INVALID_REGISTER;
+    }
+    // S0 is sim enforced (always zero)
+    if (reg_is_zero_reg(reg_num)){
+        *value = 0x0000;
+    } else {
+        return rf->gpr[reg_num];
+    }
+    return ERR_OK;
+}
+
+/*
+    * Write to GNR reg address
+    * Returns ErrorCode_e
+    * S0 is ignored
+*/
+error_t reg_write(RegisterFile_t *rf, reg_t reg_num, regval_t value)
+{
+    if (rf == NULL || reg_num == NULL){
+        return ERR_NULL_POINTER;
+    }
+
+    if (!reg_is_valid_num(reg_num)){
+        return ERR_INVALID_REGISTER;
+    }
+    // S0 writes are ignored
+    if (reg_is_zero_reg(reg_num)){
+        return ERR_OK;
+    } else {
+        rf->gpr[reg_num] = value;
+    }
+    return ERR_OK;
+}
+
