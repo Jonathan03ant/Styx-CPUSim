@@ -10,9 +10,9 @@
 
 #include <stddef.h>
 #include <stdbool.h>
-#include <stdlib.h>
 
 #include "../../common/types.h"
+#include "../../common/mem_map.h"
 #include "../../utils/errors.h"
 
 /**
@@ -20,14 +20,6 @@
   * Opaque, implementation in mem_arry.c
   */
 typedef struct Memory_s Memory_t;
-
-/**
- * Protection Modes
- */
-typedef enum {
-    MEM_MODE_LOADING,
-    MEM_MODE_RUNNING
-} MemoryMode_e;
 
 
 Memory_t mem_create(void);
@@ -45,8 +37,8 @@ error_t mem_read_word(Memory_t *mem, addr_t addr, word_t *value);
 error_t mem_write_word(Memory_t *mem, addr_t addr, word_t value);
 
 /* Memory Protection */
-error_t mem_set_protection(Memory_t *mem, MemoryMode_e mode);
-error_t mem_get_protection(Memory_t *mem, MemoryMode_e mode);
+error_t mem_set_protection(Memory_t *mem, MemMode_e mode);
+error_t mem_get_protection(Memory_t *mem, MemMode_e mode);
 
 /* Program Loader */
 error_t mem_load_program(Memory_t *mem, const char *filename);
