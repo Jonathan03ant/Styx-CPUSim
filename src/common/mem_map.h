@@ -66,7 +66,7 @@
   * EXECUTE MODE: Code region read only during execution phase
   *----------------------------------------------------------------------------*/
 typedef enum {
-    MEM_LOAD_MODE,                      // Code region is writable
+    MEM_LOAD_MODE,                      // Code region (0x0100-0x1FFF) is writable
     MEM_EXECUTE_MODE                    // Code region is read only
 } MemMode_e;
 
