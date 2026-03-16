@@ -22,7 +22,7 @@
 typedef struct Memory_s Memory_t;
 
 
-Memory_t mem_create(void);
+Memory_t* mem_create(void);
 error_t mem_init(Memory_t *mem);
 void mem_destroy(Memory_t *mem);
 error_t mem_reset(Memory_t *mem);
