@@ -60,6 +60,7 @@ error_t mem_reset(Memory_t *mem){
 }
 
 /**
+ * Byte access operation
  * Read mem address 0xXXXX
  * @return populate mem_address with value
  */
@@ -74,6 +75,7 @@ error_t mem_read_byte(Memory_t *mem, addr_t addr, byte_t *value){
 }
 
 /**
+ * Byte access operation
  * Write 8 bit value to a memory address 0xXXXX
  */
 error_t mem_write_byte(Memory_t *mem, addr_t addr, byte_t value)
@@ -84,11 +86,73 @@ error_t mem_write_byte(Memory_t *mem, addr_t addr, byte_t value)
 
     // Check code region protection
     if (mem->mode == MEM_EXECUTE_MODE){
-        if(addr >= MEM_CODE_BASE && addr <= MEM_CODE_END){
+        if(addr >= MEM_CODE_START && addr <= MEM_CODE_END){
             return ERR_WRITE_PROTECTED;
         }
     }
 
     mem->data[addr] = value;
     return ERR_OK;
+}
+
+/**
+ * Word access operation (16 bit, Little-endian)
+ * read 16bit word from memory
+ * Low byte stored at lower address
+ * Memory[address] = low byte (bits 7-0)
+ * Memory[address + 1] = high byte (bits 15-8)
+ */
+error_t mem_read_word(Memory_t *mem, addr_t addr, word_t *value)
+{
+    if (mem == NULL || value == NULL) {
+        return ERR_NULL_POINTER;
+    }
+
+    // Check for mem overflow (0xFFFF + 1)
+    if (addr >= MEM_TOTAL_SIZE + 1) {
+        return ERR_INVALID_ADDRESS;
+    }
+
+    // Read two consecutive bytes (little-endian layout)
+    byte_t low_byte = mem->data[addr];
+    byte_t high_byte = mem->data[addr + 1];
+
+    *value = make_word(high_byte, low_byte);
+    return ERR_OK;
+}
+
+/**
+ * Word access operation (16 bit, Little-endian)
+ * write 16bit word to memory
+ * Low byte stored at lower address
+ * Memory[address] = low byte (bits 7-0)
+ * Memory[address + 1] = high byte (bits 15-8)
+ */
+error_t mem_write_word(Memory_t *mem, addr_t addr, word_t value)
+{
+    if (mem == NULL) {
+        return ERR_NULL_POINTER;
+    }
+
+    // Check for mem overflow (0xFFFF + 1)
+    if (addr >= MEM_TOTAL_SIZE + 1) {
+        return ERR_INVALID_ADDRESS;
+    }
+
+    // check code region protection
+    if (mem->mode = MEM_EXECUTE_MODE){
+        // check if addr is inside code region
+        if ((addr >= MEM_CODE_START && addr <= MEM_CODE_END) ||
+            (addr + 1) >= MEM_CODE_START && (addr + 1 <= MEM_CODE_END)){
+                return ERR_WRITE_PROTECTED;
+        }
+    }
+
+    // Spilit value
+    byte_t low_byte = get_low_byte(value);
+    byte_t high_byte = get_high_byte(value);
+
+    // write word in to memory
+    mem->data[addr] = low_byte;
+    mem->data[addr + 1] = high_byte;
 }
