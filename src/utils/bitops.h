@@ -21,19 +21,21 @@ static inline uint16_t clear_bit(uint16_t value, int bit_pos)
     return value & ~(1 << bit_pos);
 }
 
+// get 0-7 (low bytes from word)
 static inline uint8_t get_low_byte(uint16_t word)
 {
     return word & 0xFF;
 }
 
+// get 15-8 (high bytes from word)
 static inline uint8_t get_high_byte(uint16_t word)
 {
     return (word >> 8) & 0xFF;
 }
 
+// Make word from two bytes (little-endian config)
 static inline uint16_t make_word(uint8_t high, uint8_t low)
 {
-
     uint16_t high_shifted = (uint16_t) high << 8;
     uint16_t word = high_shifted | low;
     return word;
