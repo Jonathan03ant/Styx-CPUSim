@@ -38,7 +38,7 @@ error_t mem_write_word(Memory_t *mem, addr_t addr, word_t value);
 
 /* Memory Protection */
 error_t mem_set_protection(Memory_t *mem, MemMode_e mode);
-error_t mem_get_protection(Memory_t *mem, MemMode_e mode);
+error_t mem_get_protection(Memory_t *mem, MemMode_e *mode);
 
 /* Program Loader */
 error_t mem_load_program(Memory_t *mem, const char *filename);

@@ -140,7 +140,7 @@ error_t mem_write_word(Memory_t *mem, addr_t addr, word_t value)
     }
 
     // check code region protection
-    if (mem->mode = MEM_EXECUTE_MODE){
+    if (mem->mode == MEM_EXECUTE_MODE){
         // check if addr is inside code region
         if ((addr >= MEM_CODE_START && addr <= MEM_CODE_END) ||
             (addr + 1) >= MEM_CODE_START && (addr + 1 <= MEM_CODE_END)){
@@ -155,4 +155,29 @@ error_t mem_write_word(Memory_t *mem, addr_t addr, word_t value)
     // write word in to memory
     mem->data[addr] = low_byte;
     mem->data[addr + 1] = high_byte;
+    return ERR_OK;
+}
+
+/**
+ * Set memory protection
+ */
+error_t mem_set_protection(Memory_t *mem, MemMode_e mode)
+{
+    if (mem == NULL){
+        return ERR_NULL_POINTER;
+    }
+    mem->mode = mode;
+    return ERR_OK;
+}
+
+/**
+ * Get Memory Protection
+ */
+error_t mem_get_protection(Memory_t *mem, MemMode_e *mode)
+{
+    if (mem == NULL){
+        return ERR_NULL_POINTER;
+    }
+    *mode = mem->mode;
+    return ERR_OK;
 }
