@@ -1,0 +1,110 @@
+/* Screen layout */
+Screen {
+    layout: vertical;
+}
+
+/* Header Bar */
+HeaderBar {
+    dock: top;
+    height: 3;
+    background: $boost;
+    border: tall green;
+    padding: 0 1;
+}
+
+#title {
+    width: 1fr;
+    content-align: left middle;
+    text-style: bold;
+    color: $text;
+}
+
+#btn-power {
+    width: auto;
+    min-width: 12;
+    background: $error;
+    color: $text;
+    text-style: bold;
+    padding: 0 1;
+    content-align: center middle;
+}
+
+#btn-power:hover {
+    background: $error-darken-1;
+}
+
+#btn-power.powered-on {
+    background: $success;
+}
+
+#btn-power.powered-on:hover {
+    background: $success-darken-1;
+}
+
+/* Control Bar */
+ControlBar {
+    height: 3;
+    background: $boost;
+    border: tall green;
+    padding: 0 1;
+}
+
+.control-row {
+    height: 2;
+    width: 100%;
+    align: center middle;
+}
+
+.btn {
+    width: auto;
+    background: $primary;
+    color: $text;
+    text-style: bold;
+    padding: 0 2;
+    margin: 0 1;
+    content-align: center middle;
+}
+
+.btn:hover {
+    background: $primary-lighten-1;
+}
+
+/* Main 3-Panel Layout */
+#main-panels {
+    height: 1fr;
+    layout: horizontal;
+}
+
+#registers {
+    width: 25%;
+    height: 100%;
+    background: $boost;
+    border: tall green;
+    padding: 1;
+}
+
+#code {
+    width: 45%;
+    height: 100%;
+    background: $boost;
+    border: tall green;
+    padding: 1;
+}
+
+#memory {
+    width: 30%;
+    height: 100%;
+    background: $boost;
+    border: tall green;
+    padding: 1;
+}
+
+/* Footer */
+Footer {
+    dock: bottom;
+    height: 3;
+    background: $boost;
+    color: $text;
+    border: tall green;
+    text-style: bold;
+}
