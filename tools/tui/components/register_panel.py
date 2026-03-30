@@ -5,18 +5,11 @@ class RegisterPanel(Static):
     def __init__(self, **kwargs):
         super().__init__("", **kwargs)
         self.powered = False
+        self.markup = True 
         self.render_registers()
 
     def render_registers(self):
         """Render the register display"""
-        # Status dots (grey when off, green when on)
-        if self.powered:
-            dots = "● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ●"  # 16 green dots (powered on)
-            dot_label = "(active)"
-        else:
-            dots = "○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○"  # 16 grey dots (powered off)
-            dot_label = "(off)"
-
         # Default values (powered off or initial state)
         if self.powered:
             registers = {
@@ -32,31 +25,58 @@ class RegisterPanel(Static):
             pc = 0x0000
             flags = "----"
 
+        # Build status dots (grey=off, green=idle, red=occupied/active)
+        if self.powered:
+            dot_chars = []
+            for i in range(16):
+                if registers[f'S{i}'] != 0x0000:
+                    dot_chars.append("[red]●[/red]")  # Occupied (non-zero)
+                else:
+                    dot_chars.append("[green]●[/green]")  # Idle (zero)
+            dots = " ".join(dot_chars)
+            dot_label = "[green](active)[/green]"
+        else:
+            dots = "[dim]○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○[/dim]"
+            dot_label = "[dim](off)[/dim]"
+
+        # Color register values (red if occupied, white if idle)
+        def format_reg(name, value):
+            if value != 0x0000:
+                return f"[red]{name}: 0x{value:04X}[/red]"
+            else:
+                return f"{name}: 0x{value:04X}"
+
+        # Color PC (red if non-zero)
+        if pc != 0x0000:
+            pc_line = f"[red]PC:    0x{pc:04X}[/red]"
+        else:
+            pc_line = f"PC:    0x{pc:04X}"
+
         content = f"""REGISTERS
 ─────────────────────
 {dots}
 {dot_label}
 ─────────────────────
 
-S0:  0x{registers['S0']:04X}
-S1:  0x{registers['S1']:04X}
-S2:  0x{registers['S2']:04X}
-S3:  0x{registers['S3']:04X}
-S4:  0x{registers['S4']:04X}
-S5:  0x{registers['S5']:04X}
-S6:  0x{registers['S6']:04X}
-S7:  0x{registers['S7']:04X}
-S8:  0x{registers['S8']:04X}
-S9:  0x{registers['S9']:04X}
-S10: 0x{registers['S10']:04X}
-S11: 0x{registers['S11']:04X}
-S12: 0x{registers['S12']:04X}
-S13: 0x{registers['S13']:04X}  ← SP
-S14: 0x{registers['S14']:04X}  ← FP
-S15: 0x{registers['S15']:04X}  ← RA
+{format_reg('S0', registers['S0'])}
+{format_reg('S1', registers['S1'])}
+{format_reg('S2', registers['S2'])}
+{format_reg('S3', registers['S3'])}
+{format_reg('S4', registers['S4'])}
+{format_reg('S5', registers['S5'])}
+{format_reg('S6', registers['S6'])}
+{format_reg('S7', registers['S7'])}
+{format_reg('S8', registers['S8'])}
+{format_reg('S9', registers['S9'])}
+{format_reg('S10', registers['S10'])}
+{format_reg('S11', registers['S11'])}
+{format_reg('S12', registers['S12'])}
+{format_reg('S13', registers['S13'])}  ← SP
+{format_reg('S14', registers['S14'])}  ← FP
+{format_reg('S15', registers['S15'])}  ← RA
 
 ─────────────────────
-PC:    0x{pc:04X}
+{pc_line}
 FLAGS: {flags}
 """
         self.update(content)
