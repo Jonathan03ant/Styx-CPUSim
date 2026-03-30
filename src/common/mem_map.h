@@ -27,7 +27,7 @@
 #define MEM_RESERVED_END        0x00FF
 
 // Code Region: 0x0100 - 0x1FFF (~8 KB)
-#define MEM_CODE_BASE           0x0100
+#define MEM_CODE_START           0x0100
 #define MEM_CODE_END            0x1FFF
 
 // Data Region: 0x2000 - 0x7FFF (~24 KB)
@@ -80,7 +80,7 @@ static inline bool is_reserved_region(addr_t addr)
 
 static inline bool is_code_region(addr_t addr)
 {
-    return addr >= MEM_CODE_BASE && addr <= MEM_CODE_END;
+    return addr >= MEM_CODE_START && addr <= MEM_CODE_END;
 }
 
 static inline bool is_data_region(addr_t addr)

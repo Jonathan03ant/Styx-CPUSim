@@ -44,7 +44,7 @@ static inline bool reg_is_zero_reg(reg_t reg_num)
       return reg_num == REG_S0;
 }
 
-void reg_debug_print(const RegisterFile_t *rf);
+
 
 
 

@@ -20,7 +20,7 @@ struct RegisterFile_s {
 */
 RegisterFile_t *reg_create(void)
 {
-    RegisterFile_t *rf = malloc(sizeof(RegisterFile_t));\
+    RegisterFile_t *rf = (RegisterFile_t*)malloc(sizeof(RegisterFile_t));\
     if (rf == NULL){
         return NULL;
     }

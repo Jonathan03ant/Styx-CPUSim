@@ -19,5 +19,5 @@ static error_t validate_prg_header(const PrgHeader_t *header)
 */
 error_t mem_load_program(Memory_t *mem, const char *filename)
 {
-    
+
 }
