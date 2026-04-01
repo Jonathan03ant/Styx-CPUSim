@@ -89,6 +89,34 @@ ControlBar {
     background: $boost;
     border: tall green;
     padding: 1;
+    layout: vertical;
+}
+
+#file-list {
+    height: 20%;
+    background: $boost;
+    border-bottom: tall green;
+    overflow-y: auto;
+}
+
+.file-list-header {
+    height: 1;
+    text-style: bold;
+}
+
+.no-files-msg {
+    height: 1;
+    color: $text-muted;
+}
+
+.file-item {
+    height: 1;
+    width: 100%;
+}
+
+#code-view {
+    height: 80%;
+    background: $boost;
 }
 
 #memory {
