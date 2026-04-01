@@ -26,6 +26,7 @@ class ControlBar(Container):
             yield ControlButton("Write ASM", "write-asm", classes="btn")
             yield ControlButton("Load .prg", "load-prg", classes="btn")
             yield ControlButton("Write .prg", "write-prg", classes="btn")
+            yield ControlButton("Delete", "delete", classes="btn")
             yield ControlButton("▶️ Execute", "execute", classes="btn")
             yield ControlButton("Step", "step", classes="btn")
             yield ControlButton("⟳ Reset", "reset", classes="btn")
