@@ -8,6 +8,8 @@ from components.code_panel import CodePanel, FileList, FileItem
 from components.memory_panel import MemoryPanel
 from components.write_program_modal import WriteProgramModal
 from components.filename_input_modal import FilenameInputModal
+from components.load_program_modal import LoadProgramModal
+import os
 
 class StyxTUI(App):
     """Styx CPU Simulator TUI"""
@@ -64,6 +66,9 @@ class StyxTUI(App):
             # Open Write Program modal for new file
             self.current_editing_filename = None
             self.push_screen(WriteProgramModal(), self.handle_write_program_result)
+        elif event.action == "load-prg":
+            # Open Load Program modal
+            self.push_screen(LoadProgramModal(), self.handle_load_program_result)
         elif event.action == "delete":
             # Delete selected file
             self.delete_selected_file()
@@ -119,6 +124,41 @@ class StyxTUI(App):
             else:
                 # New file - ask for filename
                 self.push_screen(FilenameInputModal(), lambda filename: self.save_program(program_text, filename))
+
+    def handle_load_program_result(self, file_path: str | None):
+        """Handle result from Load Program modal"""
+        footer = self.query_one(Footer)
+        if not file_path:
+            return
+
+        try:
+            with open(file_path, 'r') as f:
+                program_text = f.read()
+
+            # Extract filename from path
+            # Add .prg extension if not present
+            # Check if filename already exists
+            # Save program
+            # Update file list
+            filename = os.path.basename(file_path)
+            if not filename.endswith('.prg'):
+                filename = f"{filename}.prg"
+
+            if filename in self.programs:
+                footer.log(f"File already loaded: {filename}")
+                return
+
+            self.programs[filename] = program_text
+
+            file_list = self.query_one(FileList)
+            file_list.files = list(self.programs.keys())
+            footer.log(f"Loaded: {filename}")
+        except FileNotFoundError:
+            footer.log(f"Error: File not found - {file_path}")
+        except PermissionError:
+            footer.log(f"Error: Permission denied - {file_path}")
+        except Exception as e:
+            footer.log(f"Error loading file: {str(e)}")
 
     def save_program(self, program_text: str, filename: str | None):
         """Save program to file list"""
