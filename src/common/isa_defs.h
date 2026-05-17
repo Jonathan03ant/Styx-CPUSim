@@ -56,7 +56,41 @@ typedef enum {
     INSN_FORMAT_INVALID
 } InsnFormat_e;
 
+typedef struct {
+    reg_t rd;
+    reg_t rs1;
+    reg_t rs2;
+} RTypeFields_t;
 
+typedef struct {
+    reg_t rd;
+    imm8_t imm;
+} ITypeAFields_t;
+
+typedef struct {
+    reg_t rd;
+    reg_t rs;
+    offset4_t offset;
+} ITypeBFields_t;
+
+typedef struct {
+    addr12_t addr;
+} JTypeFields_t;
+
+
+/*----------------------------------------------------------------------------
+  * INSTRUCTION FORMATS
+  *----------------------------------------------------------------------------*/
+typedef struct {
+    opcode_t opcode;
+    InsnFormat_e format;
+    union {
+        RTypeFields_t r_type;
+        ITypeAFields_t i_type_a;
+        ITypeBFields_t i_type_b;
+        JTypeFields_t j_type;
+    } fields;
+} DecodedInstruction_t;
 /*----------------------------------------------------------------------------
   * FIELD EXTRACTION FUNCTIONS
   *
