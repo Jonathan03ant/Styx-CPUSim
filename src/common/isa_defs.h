@@ -91,6 +91,8 @@ typedef struct {
         JTypeFields_t j_type;
     } fields;
 } DecodedInstruction_t;
+
+
 /*----------------------------------------------------------------------------
   * FIELD EXTRACTION FUNCTIONS
   *
