@@ -59,7 +59,8 @@ typedef enum {
     REG_S14 = 0xE,    // Frame/Heap Pointer (convention)
     REG_S15 = 0xF,    // Return Address (convention)
 
-    REG_COUNT = 16    // Total number of GPRs
+    REG_COUNT = 16,    // Total number of GPRs
+    INVALID_REG = 0xFF
 } RegNum_e;
 
 
