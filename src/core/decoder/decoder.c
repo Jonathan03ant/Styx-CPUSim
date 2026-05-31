@@ -38,6 +38,82 @@ static const InsnFormat_e opcode_LUT[16] = {
     [OP_LUI]   = INSN_FORMAT_I_A,           // Opcode 15 (LUI) is I-Type A
 };
 
+
+/*
+  Extract destination register from decoded instruction.
+*/
+reg_t decoded_get_rd(const DecodedInstruction_t *decoded)
+{
+    switch (decoded->format) {
+        case INSN_FORMAT_R:
+            return decoded->fields.r_type.rd;
+        case INSN_FORMAT_I_A:
+            return decoded->fields.i_type_a.rd;
+        case INSN_FORMAT_I_B:
+            return decoded->fields.i_type_b.rd;
+        case INSN_FORMAT_J:
+            return INVALID_REG;
+        default:
+            return INVALID_REG;
+    }
+}
+
+/*
+  Extract src1 register from decoded instruction.
+*/
+reg_t decoded_get_rs1(const DecodedInstruction_t *decoded)
+{
+    switch (decoded->format) {
+        case INSN_FORMAT_R:
+            return decoded->fields.r_type.rs1;
+        case INSN_FORMAT_I_A:
+            return INVALID_REG;
+        case INSN_FORMAT_I_B:
+            return decoded->fields.i_type_b.rs;
+        case INSN_FORMAT_J:
+            return INVALID_REG;
+        default:
+            return INVALID_REG;
+    }
+}
+
+/*
+  Extract src2 register from decoded instruction.
+*/
+reg_t decoded_get_rs2(const DecodedInstruction_t *decoded)
+{
+    switch (decoded->format) {
+        case INSN_FORMAT_R:
+            return decoded->fields.r_type.rs2;
+
+        case INSN_FORMAT_I_A:
+        case INSN_FORMAT_I_B:
+        case INSN_FORMAT_J:
+            return INVALID_REG;
+        default:
+            return INVALID_REG;
+        }
+}
+
+/*
+  Extract omm8 (or offset) register from decoded instruction.
+*/
+reg_t decoded_get_immediate(const DecodedInstruction_t *decoded)
+{
+    switch (decoded->format) {
+        case INSN_FORMAT_I_A:
+            return decoded->fields.i_type_a.imm;
+        case INSN_FORMAT_I_B:
+            return decoded->fields.i_type_b.offset;
+
+        case INSN_FORMAT_R:
+        case INSN_FORMAT_J:
+            return INVALID_REG;
+        default:
+        return INVALID_REG;
+    }
+}
+
 /*
   Validate a decoded instruction opcode and format
   * TO be adjusted later as needed
