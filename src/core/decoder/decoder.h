@@ -42,7 +42,7 @@ reg_t decoded_get_immediate(const DecodedInstruction_t *decoded);
  */
 bool is_valid_instruction(const DecodedInstruction_t *decoded);
 bool is_valid_opcode(opcode_t opcode);
-reg_t is_valid_register(reg_t reg_num);
+bool is_valid_register(reg_t reg_num);
 
 /**
   * Instruction access API's

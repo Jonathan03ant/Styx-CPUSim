@@ -8,6 +8,7 @@
 
 #include "decoder.h"
 #include "../../common/isa_defs.h"
+#include "../../core/registers/registers.h"
 #include "../../utils/errors.h"
 #include <stddef.h>
 
@@ -21,8 +22,8 @@ static error_t decode_jtype(insn_t raw, DecodedInstruction_t *decoded);
 static const InsnFormat_e opcode_format_table[16] = {
     [OP_NOP]   = INSN_FORMAT_I_A,           // Opcode 0 (NOP) is I-Type A
     [OP_MOV]   = INSN_FORMAT_R,             // Opcode 1 (MOV) is R-Type
-    [OP_LOAD]  = INST_FORMAT_I_B,           // Opcode 2 (LOAD) is I-Type B
-    [OP_STORE] = INST_FORMAT_I_B,           // Opcode 3 (STORE) is I-Type B
+    [OP_LOAD]  = INSN_FORMAT_I_B,           // Opcode 2 (LOAD) is I-Type B
+    [OP_STORE] = INSN_FORMAT_I_B,           // Opcode 3 (STORE) is I-Type B
     [OP_ADD]   = INSN_FORMAT_R,             // Opcode 4 (ADD) is R-Type
     [OP_SUB]   = INSN_FORMAT_R,             // Opcode 5 (SUB) is R-Type
     [OP_MUL]   = INSN_FORMAT_R,             // Opcode 6 (MUL) is R-Type
@@ -36,3 +37,18 @@ static const InsnFormat_e opcode_format_table[16] = {
     [OP_ADDI]  = INSN_FORMAT_I_A,           // Opcode 14 (ADDI) is I-Type A
     [OP_LUI]   = INSN_FORMAT_I_A,           // Opcode 15 (LUI) is I-Type A
 };
+
+bool is_valid_instruction(const DecodedInstruction_t *decoded)
+{
+  //What makes an instruction valid
+}
+
+bool is_valid_opcode(opcode_t opcode)
+{
+    return opcode < OP_COUNT;
+}
+
+bool is_valid_register(reg_t reg_num)
+{
+    return reg_is_valid_num(reg_num);
+}
