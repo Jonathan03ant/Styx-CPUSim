@@ -38,6 +38,40 @@ static const InsnFormat_e opcode_LUT[16] = {
     [OP_LUI]   = INSN_FORMAT_I_A,           // Opcode 15 (LUI) is I-Type A
 };
 
+opcode_t get_opcode(insn_t instruction) {
+    return insn_get_opcode(instruction);
+}
+
+reg_t get_rs(insn_t instruction, InsnFormat_e format) {
+    switch (format) {
+        case INSN_FORMAT_R:
+            return insn_get_r_rs1(instruction);
+        case INSN_FORMAT_I_B:
+            return insn_get_i_b_rs(instruction);
+        default:
+            return INVALID_REG;
+    }
+}
+
+reg_t get_rs1(insn_t instruction) {
+    return insn_get_r_rs1(instruction);
+}
+
+reg_t get_rs2(insn_t instruction) {
+    return insn_get_r_rs2(instruction);
+}
+
+imm8_t get_imm8(insn_t instruction) {
+    return insn_get_i_a_imm(instruction);
+}
+
+offset4_t get_offset(insn_t instruction) {
+    return insn_get_i_b_offset(instruction);
+}
+
+addr12_t get_addr12(insn_t instruction) {
+    return insn_get_j_addr(instruction);
+}
 
 /*
   Extract destination register from decoded instruction.
@@ -187,4 +221,58 @@ bool instruction_is_ctl_flow(opcode_t opcode)
 {
     InsnFormat_e format = get_inst_format(opcode);
     return (format == INSN_FORMAT_J);
+}
+
+/*
+    * Extract all rtype registers
+    * Populate decoder, set the rtype field
+*/
+static error_t decode_rtype(insn_t raw, DecodedInstruction_t *decoded)
+{
+    decoded->fields.r_type.rd = insn_get_i_a_rd(raw);
+    decoded->fields.r_type.rs1 = insn_get_r_rs1(raw);
+    decoded->fields.r_type.rs2 = insn_get_r_rs2(raw);
+    return ERR_OK;
+}
+
+/*
+    * Extract itype_a; rd and imm
+    * Populate decoder
+*/
+static error_t decode_itype_a(insn_t raw, DecodedInstruction_t *decoded)
+{
+    decoded->fields.i_type_a.rd = insn_get_i_a_rd(raw);
+    decoded->fields.i_type_a.imm = insn_get_i_a_imm(raw);
+    return ERR_OK;
+}
+
+/*
+    * Extract itype_b; rd, rs, and offset
+    * Populate decoder
+*/
+static error_t decode_itype_b(insn_t raw, DecodedInstruction_t *decoded) {
+    decoded->fields.i_type_b.rd = insn_get_r_rd(raw);
+    decoded->fields.i_type_b.rs = insn_get_i_b_rs(raw);
+    decoded->fields.i_type_b.offset = insn_get_i_b_offset(raw);
+    return ERR_OK;
+}
+
+/*
+    * Extract jtype; jump to address (addr)
+    * Populate decoder
+*/
+static error_t decode_jtype(insn_t raw, DecodedInstruction_t *decoded) {
+    decoded->fields.j_type.addr = insn_get_j_addr(raw);
+    return ERR_OK;
+}
+
+/*
+    * Main orchestreture
+    * gets raw instruction from memory, parses and validate the opcode
+    * determine the opcode format form the LUT
+    * despatch the format decoder
+*/
+error_t decode_instruction(insn_t raw_instruction, DecodedInstruction_t *decoded)
+{
+
 }
