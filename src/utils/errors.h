@@ -19,7 +19,7 @@ typedef enum {
     ERR_INVALID_OPCODE,                     // Invalid/unknown opcode
     ERR_INVALID_REGISTER,                   // Register number out of range (not 0-15)
     ERR_INVALID_INSN_FORMAT,                // Instruction doesn't match expected format
-
+    ERR_INVALID_INSTRUCTION,
     /* Memory Errors */
     ERR_INVALID_ADDRESS,                    // Address out of bounds (>= 0x10000)
     ERR_WRITE_PROTECTED,                    // Write to protected region (code during execution)
