@@ -19,6 +19,11 @@
 **/
 error_t decode_instruction(insn_t raw_instruction, DecodedInstruction_t *decoded);
 
+/**
+ * Wrapper functions to parse raw instruction
+ * They call isa_def extract implementations
+ * Should be used as public API instead of isa_defs
+ */
 opcode_t get_opcode(insn_t instruction);
 reg_t get_rs(insn_t instruction, InsnFormat_e format);
 reg_t get_rs1(insn_t instruction);

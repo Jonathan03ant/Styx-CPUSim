@@ -18,6 +18,17 @@ static error_t decode_itype_a(insn_t raw, DecodedInstruction_t *decoded);
 static error_t decode_itype_b(insn_t raw, DecodedInstruction_t *decoded);
 static error_t decode_jtype(insn_t raw, DecodedInstruction_t *decoded);
 
+// Format decoder function pointer type
+typedef error_t (*FormatDecoder_t)(insn_t raw, DecodedInstruction_t *decoded);
+
+// Format decoder lookup table (indexed by instruction format)
+static const FormatDecoder_t format_decoder_LUT[] = {
+    [INSN_FORMAT_R] = decode_rtype,
+    [INSN_FORMAT_I_A] = decode_itype_a,
+    [INSN_FORMAT_I_B] = decode_itype_b,
+    [INSN_FORMAT_J] = decode_jtype,
+};
+
 // Opcode to format lookup table
 static const InsnFormat_e opcode_LUT[16] = {
     [OP_NOP]   = INSN_FORMAT_I_A,           // Opcode 0 (NOP) is I-Type A
@@ -38,6 +49,7 @@ static const InsnFormat_e opcode_LUT[16] = {
     [OP_LUI]   = INSN_FORMAT_I_A,           // Opcode 15 (LUI) is I-Type A
 };
 
+// Return opcode from raw_insn, calls isa wrapper
 opcode_t get_opcode(insn_t instruction) {
     return insn_get_opcode(instruction);
 }
@@ -167,7 +179,7 @@ bool is_valid_instruction(const DecodedInstruction_t *decoded)
 }
 
 /*
-  Validate giben opcode is valide
+  Validate given opcode is valid
   Check with OP_COUNT
 */
 bool is_valid_opcode(opcode_t opcode)
@@ -267,12 +279,34 @@ static error_t decode_jtype(insn_t raw, DecodedInstruction_t *decoded) {
 }
 
 /*
-    * Main orchestreture
+    * Main orchestreture AT RUNTIME
     * gets raw instruction from memory, parses and validate the opcode
-    * determine the opcode format form the LUT
-    * despatch the format decoder
+    * determine the opcode format form the LUT, store opcode and format
+    * despatch the format decoder, which sets the format fields
 */
 error_t decode_instruction(insn_t raw_instruction, DecodedInstruction_t *decoded)
 {
+    if (decoded == NULL){
+        return ERR_NULL_POINTER;
+    }
 
+    // Extract opcode from raw instruction
+    opcode_t opcode = insn_get_opcode(raw_instruction);
+    if (!is_valid_opcode(opcode)){
+        return ERR_INVALID_OPCODE;
+    }
+
+    InsnFormat_e format = opcode_LUT[opcode];
+    decoded->opcode = opcode;
+    decoded->format = format;
+
+    // Dispatch to appropriate format deocder
+    error_t err = format_decoder_LUT[format](raw_instruction, decoded);
+    if (err != ERR_OK) {
+        return err;
+    }
+
+    if (!is_valid_instruction(decoded)){
+        return ERR_INVALID_INSTRUCTION;
+    }
 }
