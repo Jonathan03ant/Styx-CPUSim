@@ -41,4 +41,23 @@ typedef struct CPU_s {
     error_t last_error;
 } CPU_t;
 
+CPU_t *cpu_create(void);
+error_t cpu_init(CPU_t *cpu);
+void cpu_destroy(CPU_t *cpu);
+
+
+error_t cpu_step(CPU_t *cpu);
+error_t cpu_run(CPU_t *cpu);
+error_t cpu_run_for(CPU_t *cpu, uint32_t n);
+
+void cpu_reset(CPU_t *cpu);
+void cpu_halt(CPU_t *cpu);
+bool is_halted(CPU_t *cpu);
+
+void cpu_get_state(CPU_t* cpu, CPUState_t* state);
+void cpu_print_state(CPU_t* cpu);
+uint32_t cpu_get_cycle_count(CPU_t* cpu);
+void cpu_reset_stats(CPU_t* cpu);
+
+
 #endif // CPU_H
