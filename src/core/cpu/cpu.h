@@ -23,7 +23,6 @@
   * Internal registers (MAR/MDR/IR) are not ISA-visible but provide
   * * debugging visibility into the fetch-decode-execute cycle.
 **/
-
 typedef struct CPU_s {
     //*Core Components//
     RegisterFile_t *registers;
@@ -31,7 +30,7 @@ typedef struct CPU_s {
 
     //*Internal Registers//
     addr_t MAR;                 // Memory Adress Register
-    addr_t MDR;                 // Memory Data Register
+    word_t MDR;                 // Memory Data Register
     insn_t IR;                  // Instruction Register (Current Instruction)
 
     //*Execution State//
