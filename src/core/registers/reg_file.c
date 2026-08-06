@@ -62,13 +62,13 @@ void reg_reset(RegisterFile_t *rf)
 }
 
 /*
-    * Read GNR reg address
+    * Read GNR reg address from RegisterFile
     * Returns ErrorCode_e
     * S0 is hardware enforced
 */
 error_t reg_read(const RegisterFile_t *rf, reg_t reg_num, regval_t *value)
 {
-    if (rf == NULL || reg_num == NULL){
+    if (rf == NULL || value == NULL){
         return ERR_NULL_POINTER;
     }
 
@@ -79,7 +79,7 @@ error_t reg_read(const RegisterFile_t *rf, reg_t reg_num, regval_t *value)
     if (reg_is_zero_reg(reg_num)){
         *value = 0x0000;
     } else {
-        return rf->gpr[reg_num];
+        *value = rf->gpr[reg_num];
     }
     return ERR_OK;
 }
@@ -91,7 +91,7 @@ error_t reg_read(const RegisterFile_t *rf, reg_t reg_num, regval_t *value)
 */
 error_t reg_write(RegisterFile_t *rf, reg_t reg_num, regval_t value)
 {
-    if (rf == NULL || reg_num == NULL){
+    if (rf == NULL){
         return ERR_NULL_POINTER;
     }
 
@@ -125,14 +125,14 @@ error_t  reg_write_pc(RegisterFile_t *rf, addr_t new_pc)
 // Move PC (Increment)
 void reg_increment_pc(RegisterFile_t *rf)
 {
-    if (rf == NULL) return 0x0000;
+    if (rf == NULL) return;
     rf->pc += 2; // Instructions are 16 bits = 2 bytes
 }
 
 flags_t reg_get_flags(const RegisterFile_t *rf)
 {
     if (rf == NULL) return 0x0000;
-    rf->flags;
+    return rf->flags;
 }
 
 void reg_set_flags(RegisterFile_t *rf, flags_t flags)
@@ -144,7 +144,7 @@ void reg_set_flags(RegisterFile_t *rf, flags_t flags)
 flag_bit_t reg_read_flag_bit(const RegisterFile_t *rf, flags_t flag_mask)
 {
     if (rf == NULL) return 0;
-    reuurr (rf->flags & flag_mask) != 0? 1 : 0;
+    return (rf->flags & flag_mask) != 0 ? 1 : 0;
 }
 
 void reg_set_flag_bit(RegisterFile_t *rf, flags_t  flag_mask, flag_bit_t value)
