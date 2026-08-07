@@ -76,10 +76,10 @@ error_t cpu_init(CPU_t *cpu)
     cpu->MDR        = 0x0000;
     cpu->IR         = 0x0000;
 
-    cpu->halted = true;         // IDLE (no program loaded)
-    cpu->step_mode = false;     // Continuous mode
-    cpu->cycle_count = 0;       // Reset cycle counter
-    cpu->last_error = ERR_OK;   // Clear any previous errors
+    cpu->state = CPU_STATE_IDLE;         // IDLE (no program loaded)
+    cpu->step_mode = false;              // Continuous mode
+    cpu->cycle_count = 0;                // Reset cycle counter
+    cpu->last_error = ERR_OK;            // Clear any previous errors
 
     return ERR_OK;
 }
@@ -133,17 +133,16 @@ void cpu_reset(CPU_t *cpu)
     cpu->IR         = 0x0000;
 
     // Reset execution state to IDLE
-    cpu->halted     = true;         // IDLE (no program loaded)
-    cpu->step_mode  = false;        // Continuous mode
-    cpu->cycle_count = 0;           // Reset cycle counter
-    cpu->last_error = ERR_OK;       // Clear any previous errors
+    cpu->state      = CPU_STATE_HALTED;         // IDLE (no program loaded)
+    cpu->step_mode  = false;                    // Continuous mode
+    cpu->cycle_count = 0;                       // Reset cycle counter
+    cpu->last_error = ERR_OK;                   // Clear any previous errors
 }
 
 //* Manually halt CPU execution
 void cpu_halt(CPU_t *cpu)
 {
     /*
-        * Sets halted flag to true
         * Stops execution in cpu_run() loop
     */
 
@@ -151,22 +150,11 @@ void cpu_halt(CPU_t *cpu)
         return;
     }
 
-    cpu->halted = true;
-}
-
-//* Check if CPU is halted
-bool is_halted(CPU_t *cpu)
-{
-    /*
-        * Returns true if CPU is halted (IDLE or stopped)
-    */
-
-    if (cpu == NULL) {
-        return true;  // Treat NULL as halted
+    if (cpu->state == CPU_STATE_RUNNING) {
+        cpu->state = CPU_STATE_HALTED;  // ← CHANGE from halted = true
     }
-
-    return cpu->halted;
 }
+
 
 //* Get total number of instructions executed
 uint32_t cpu_get_cycle_count(CPU_t *cpu)

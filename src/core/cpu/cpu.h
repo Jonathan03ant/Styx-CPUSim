@@ -17,8 +17,21 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+/*
+  * CPU Power state, important for execution and TUI
+*/
+typedef enum {
+    CPU_STATE_IDLE,               // Powered on, no program
+    CPU_STATE_LOADED,             // Program loaded, ready to execute
+    CPU_STATE_RUNNING,            // Executing instructions
+    CPU_STATE_HALTED,             // Execution finished (HALT)
+    CPU_STATE_ERROR               // Stopped due to error
+} CPUState_e;
+
+
+
 /**
-  * * CPU State
+  * * CPU Struct
   * Contains all components and Internal States needed for execution
   * Internal registers (MAR/MDR/IR) are not ISA-visible but provide
   * * debugging visibility into the fetch-decode-execute cycle.
@@ -27,6 +40,7 @@ typedef struct CPU_s {
     //*Core Components//
     RegisterFile_t *registers;
     Memory_t       *memory;
+    CPUState_e      state;
 
     //*Internal Registers//
     addr_t MAR;                 // Memory Adress Register
@@ -34,7 +48,6 @@ typedef struct CPU_s {
     insn_t IR;                  // Instruction Register (Current Instruction)
 
     //*Execution State//
-    bool halted;                // CPU Stopped? (HALT Instruction or error)
     bool step_mode;             // true = single step, false = continuous
     uint32_t cycle_count;       // total instruction executed
     error_t last_error;
@@ -51,9 +64,7 @@ error_t cpu_run_for(CPU_t *cpu, uint32_t n);
 
 void cpu_reset(CPU_t *cpu);
 void cpu_halt(CPU_t *cpu);
-bool is_halted(CPU_t *cpu);
 
-void cpu_get_state(CPU_t* cpu, CPUState_t* state);
 void cpu_print_state(CPU_t* cpu);
 uint32_t cpu_get_cycle_count(CPU_t* cpu);
 void cpu_reset_stats(CPU_t* cpu);
