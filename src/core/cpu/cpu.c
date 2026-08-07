@@ -256,3 +256,70 @@ error_t cpu_step(CPU_t *cpu)
 
     return ERR_OK;
 }
+
+//* Run CPU until HALTED or ERROR
+error_t cpu_run(CPU_t *cpu)
+{
+    /*
+        * Executes instructions continuously until:
+        * - HALT pattern detected (JMP to self)
+        * - Error occurs
+        * Each iteration calls cpu_step()
+    */
+
+    if (cpu == NULL) {
+        return ERR_NULL_POINTER;
+    }
+
+    // Can only run if LOADED or RUNNING
+    if (cpu->state != CPU_STATE_LOADED &&
+        cpu->state != CPU_STATE_RUNNING) {
+        return ERR_INVALID_CPU_STATE;
+    }
+
+    // Keep stepping until halted or error
+    while(cpu->state == CPU_STATE_LOADED ||
+          cpu->state == CPU_STATE_RUNNING){
+        error_t err = cpu_step(cpu);
+        if (err != ERR_OK) {
+            return err;  // Error already set by cpu_step
+        }
+    }
+
+    return ERR_OK;
+}
+
+//* Run CPU for N instructions
+error_t cpu_run_for(CPU_t *cpu, uint32_t n)
+{
+    /*
+       * Executes exactly N instructions (or until HALT/ERROR)
+       * Useful for:
+       * - Testing (run known number of steps)
+       * - Debugging (step through slowly)
+       * - Performance testing
+    */
+
+    if (cpu == NULL) {
+        return ERR_NULL_POINTER;
+    }
+
+    // Can only run if LOADED or RUNNING
+    if (cpu->state != CPU_STATE_LOADED &&
+        cpu->state != CPU_STATE_RUNNING) {
+        return ERR_INVALID_CPU_STATE;
+    }
+
+    // Execute N instructions
+    for (uint32_t i = 0; i < n; i++){
+        if (cpu->state != CPU_STATE_LOADED &&
+        cpu->state != CPU_STATE_RUNNING) {
+            break;
+        }
+        error_t err = cpu_step(cpu);
+        if (err != ERR_OK) {
+            return err;
+        }
+    }
+    return ERR_OK;
+}
