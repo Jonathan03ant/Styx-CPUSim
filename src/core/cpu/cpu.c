@@ -133,7 +133,7 @@ void cpu_reset(CPU_t *cpu)
     cpu->IR         = 0x0000;
 
     // Reset execution state to IDLE
-    cpu->state      = CPU_STATE_HALTED;         // IDLE (no program loaded)
+    cpu->state      = CPU_STATE_IDLE  ;         // IDLE (no program loaded)
     cpu->step_mode  = false;                    // Continuous mode
     cpu->cycle_count = 0;                       // Reset cycle counter
     cpu->last_error = ERR_OK;                   // Clear any previous errors
@@ -185,4 +185,74 @@ void cpu_reset_stats(CPU_t *cpu)
 
     cpu->cycle_count = 0;
     cpu->last_error = ERR_OK;
+}
+
+
+//* Execute one instruction (fetch-decode-execute cycle)
+error_t cpu_step(CPU_t *cpu)
+{
+    /*
+       * Executes a single instruction (one FDE cycle)
+       * Transitions LOADED → RUNNING on first step
+       * Detects HALT pattern (JMP to self)
+       * On error: sets CPU_STATE_ERROR and last_error
+    */
+
+    if (cpu == NULL) {
+        return ERR_NULL_POINTER;
+    }
+
+    // Can only step is LOADED or RUNNING
+    if (cpu->state != CPU_STATE_LOADED &&
+        cpu->state != CPU_STATE_RUNNING){
+        return ERR_INVALID_CPU_STATE;
+    }
+
+    // Transition LOADED->RUNNING on first step
+    if (cpu->state == CPU_STATE_LOADED){
+        cpu->state = CPU_STATE_RUNNING;
+    }
+
+    // FETCH, GET pc and read instruction from memory
+    addr_t pc = reg_read_pc(cpu->registers);
+    insn_t raw_instruction;
+    error_t err = ctrl_fetch(cpu->memory, pc, &raw_instruction);
+    if (err != ERR_OK) {
+        cpu->state = CPU_STATE_ERROR;
+        cpu->last_error = err;
+        return err;
+    }
+
+    // Store IR
+    cpu->IR = raw_instruction;
+
+    // Decode
+    DecodedInstruction_t decoded;
+    err = decode_instruction(raw_instruction, &decoded);
+    if (err != ERR_OK) {
+        cpu->state = CPU_STATE_ERROR;
+        cpu->last_error = err;
+        return err;
+    }
+
+    // Execute  (ctrl_execute auto-increments PC)
+    err = ctrl_execute(cpu, &decoded);
+    if (err != ERR_OK) {
+        cpu->state = CPU_STATE_ERROR;
+        cpu->last_error = err;
+        return err;
+    }
+
+    // Update stats
+    cpu->cycle_count++;
+    // Check for HALT pattern (JMP to self)
+    if (decoded.opcode == OP_JMP) {
+        addr_t new_pc = reg_read_pc(cpu->registers);
+        addr_t jump_target = decoded.fields.j_type.addr;
+        if (jump_target == new_pc) {
+            cpu->state = CPU_STATE_HALTED;
+        }
+    }
+
+    return ERR_OK;
 }
