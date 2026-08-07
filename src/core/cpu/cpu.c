@@ -109,3 +109,92 @@ void cpu_destroy(CPU_t *cpu)
 
     free(cpu);
 }
+
+//* Reset CPU to IDLE state (without destroying/recreating)
+void cpu_reset(CPU_t *cpu)
+{
+    /*
+        * Resets CPU back to IDLE state
+        * Clears all registers, memory, and execution state
+        * Can be called after program execution to start fresh
+    */
+
+    if (cpu == NULL) {
+        return;
+    }
+
+    // Reset RegisterFile and Memory to initial state
+    reg_reset(cpu->registers);
+    mem_reset(cpu->memory);
+
+    // Clear internal registers
+    cpu->MAR        = 0x0000;
+    cpu->MDR        = 0x0000;
+    cpu->IR         = 0x0000;
+
+    // Reset execution state to IDLE
+    cpu->halted     = true;         // IDLE (no program loaded)
+    cpu->step_mode  = false;        // Continuous mode
+    cpu->cycle_count = 0;           // Reset cycle counter
+    cpu->last_error = ERR_OK;       // Clear any previous errors
+}
+
+//* Manually halt CPU execution
+void cpu_halt(CPU_t *cpu)
+{
+    /*
+        * Sets halted flag to true
+        * Stops execution in cpu_run() loop
+    */
+
+    if (cpu == NULL) {
+        return;
+    }
+
+    cpu->halted = true;
+}
+
+//* Check if CPU is halted
+bool is_halted(CPU_t *cpu)
+{
+    /*
+        * Returns true if CPU is halted (IDLE or stopped)
+    */
+
+    if (cpu == NULL) {
+        return true;  // Treat NULL as halted
+    }
+
+    return cpu->halted;
+}
+
+//* Get total number of instructions executed
+uint32_t cpu_get_cycle_count(CPU_t *cpu)
+{
+    /*
+        * Returns cycle count (instructions executed)
+        * Returns 0 if cpu is NULL
+    */
+
+    if (cpu == NULL) {
+        return 0;
+    }
+
+    return cpu->cycle_count;
+}
+
+//* Reset cycle counter and statistics
+void cpu_reset_stats(CPU_t *cpu)
+{
+    /*
+        * Clears cycle count and last error
+        * Does NOT reset registers/memory (use cpu_reset for that)
+    */
+
+    if (cpu == NULL) {
+        return;
+    }
+
+    cpu->cycle_count = 0;
+    cpu->last_error = ERR_OK;
+}
