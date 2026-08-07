@@ -26,10 +26,11 @@
   * This is the fetch phase of the fetch-decode-execute cycle
   *
   * @param mem Memory module contains 64KB memory array
-  * @param pc Program counter, address to fetch from memory
+  * @param addr Any gven, address to fetch from memory
+      * CPU could use this to fetch at address PC
   * @param instruction output: Fetched 16-bit instruction
  */
-error_t ctrl_fetch(Memory_t *mem, addr_t pc, insn_t *instruction);
+error_t ctrl_fetch(Memory_t *mem, addr_t mem_addr, insn_t *instruction);
 
 /**
   * *Executes a decoded instruction

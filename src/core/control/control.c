@@ -37,8 +37,8 @@ static InstructionHandler_t handler_table[OP_COUNT] = {
     [OP_LUI]   = exec_lui,      // 0xF
 };
 
-// *Fetch //
-error_t ctrl_fetch(Memory_t *mem, addr_t pc, insn_t *instruction)
+// *Control Fetch, Read 16-bit word from memory at a given address //
+error_t ctrl_fetch(Memory_t *mem, addr_t mem_addr, insn_t *instruction)
 {
     if (mem == NULL || instruction == NULL){
         return ERR_NULL_POINTER;
@@ -46,7 +46,7 @@ error_t ctrl_fetch(Memory_t *mem, addr_t pc, insn_t *instruction)
 
     //*Read 16-bit instruction from memory at PC
     word_t raw;
-    error_t err = mem_read_word(mem, pc, &raw);
+    error_t err = mem_read_word(mem, mem_addr, &raw);
     if (err != ERR_OK){
         return err;
     }
