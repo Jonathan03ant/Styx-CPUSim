@@ -97,10 +97,10 @@ error_t mem_write_byte(Memory_t *mem, addr_t addr, byte_t value)
 
 /**
  * Word access operation (16 bit, Little-endian)
- * read 16bit word from memory
+ * * read 16bit word/insn from memory, i.e Complete Instruction
  * Low byte stored at lower address
- * Memory[address] = low byte (bits 7-0)
- * Memory[address + 1] = high byte (bits 15-8)
+ * Memory[address](high) = low byte (bits 7-0)
+ * Memory[address + 1](low) = high byte (bits 15-8)
  */
 error_t mem_read_word(Memory_t *mem, addr_t addr, word_t *value)
 {

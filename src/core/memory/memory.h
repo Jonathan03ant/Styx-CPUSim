@@ -16,7 +16,7 @@
 #include "../../utils/errors.h"
 
 /**
-  * Memory Subsystem struct
+  * * Memory Subsystem struct
   * Opaque, implementation in mem_arry.c
   */
 typedef struct Memory_s Memory_t;
