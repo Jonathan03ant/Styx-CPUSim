@@ -200,10 +200,11 @@ error_t exec_div(CPU_t *cpu, DecodedInstruction_t *insn)
         return err;
     }
 
-    // Call ALU to perfrom addition
+    // Call ALU to perform division
     regval_t result;
     err = alu_div(val1, val2, &result);
-    if (err != ERR_OK) {
+    // Division by zero: ALU sets result to 0, continue execution
+    if (err != ERR_OK && err != ERR_DIVISION_BY_ZERO) {
         return err;
     }
 
