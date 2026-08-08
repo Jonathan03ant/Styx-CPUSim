@@ -32,13 +32,19 @@ typedef enum {
 
     /* I/O Errors */
     ERR_FILE_NOT_FOUND,                     // Program file not found
-    ERR_INVALID_PROGRAM,                    // Invalid program file format
     ERR_FILE_READ,                          // Error reading file
     ERR_FILE_WRITE,                         // Error writing file
+    ERR_INVALID_PRG_FORMAT,                 // Invalid .prg file format (bad magic/header)
+    ERR_UNSUPPORTED_PRG_VERSION,            // Unsupported .prg format version
+    ERR_INVALID_ENTRY_POINT,                // Entry point not at CODE_BASE
+    ERR_CODE_TOO_LARGE,                     // Code section exceeds CODE region
+    ERR_DATA_TOO_LARGE,                     // Data section exceeds DATA region
+    ERR_BSS_TOO_LARGE,                      // BSS section too large for remaining memory
 
     /* General Errors */
     ERR_NULL_POINTER,                       // Null pointer passed to function
     ERR_INVALID_ARGUMENT,                   // Invalid argument to function
+    ERR_INVALID_CPU_STATE,                  // Invalid CPU STATE FOR OPERATION
     ERR_NOT_IMPLEMENTED,                    // Feature not yet implemented
     ERR_UNKNOWN,                            // Unknown/unspecified error
 
@@ -66,7 +72,7 @@ void err_print_context(const ErrorContext_t *ctx);
 
 // macro for creating error context with file/line automatically
 #define ERROR_CONTEXT(code, value) \
-    error_create_context((code), __FILE__, __LINE__, (value))
+    err_create_context((code), __FILE__, __LINE__, (value))
 
 static inline bool ops_sucess(ErrorCode_e code)
 {
