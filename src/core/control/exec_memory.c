@@ -100,7 +100,7 @@ error_t exec_store(CPU_t* cpu, DecodedInstruction_t* insn)
 
     // Read data from rd (the value we want to store)
     word_t data;
-    err = reg_read(cpu->registers, rs, &data);
+    err = reg_read(cpu->registers, rd, &data);
     if (err != ERR_OK) {
         return err;
     }
