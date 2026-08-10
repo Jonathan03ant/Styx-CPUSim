@@ -299,6 +299,13 @@ def run_single_test(test_file, args):
         print(f"{C_RED}{C_BOLD}✗ SOME TESTS FAILED{C_RESET}")
     print(f"{C_BOLD}{'='*64}{C_RESET}\n")
 
+    # ========================================================================
+    # CLEANUP: Remove generated .prg file (unless --keep-prg)
+    # ========================================================================
+    if not args.keep_prg and prg_file.exists():
+        prg_file.unlink()
+        print(f"{C_DIM}[Cleanup] Removed {prg_file.name}{C_RESET}\n")
+
     return all_passed
 
 def main():
@@ -341,6 +348,12 @@ Workflow:
         '-v', '--verbose',
         action='store_true',
         help='Verbose mode: show full output including expected results'
+    )
+
+    parser.add_argument(
+        '--keep-prg',
+        action='store_true',
+        help='Keep generated .prg files (default: delete after test)'
     )
 
     args = parser.parse_args()
