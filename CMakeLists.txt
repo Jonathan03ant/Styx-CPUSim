@@ -7,6 +7,11 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 # Enable Position Independent Code for shared library
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# Output directories for build artifacts
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)  # Executables
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  # Shared libs (.so)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  # Static libs (.a)
+
 include_directories(${CMAKE_SOURCE_DIR}/include)    # Public API headers
 include_directories(${CMAKE_SOURCE_DIR})            # For util/ files
 

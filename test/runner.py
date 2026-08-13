@@ -181,7 +181,7 @@ def run_single_test(test_file, args):
     delay(0.3)
 
     result = subprocess.run(
-        ["./styx_sim", str(prg_file)],
+        ["../bin/styx_sim", str(prg_file)],
         capture_output=True,
         text=True
     )

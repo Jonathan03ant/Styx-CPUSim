@@ -5,10 +5,11 @@
 *.dylib
 *.dll
 
-# Executables
-test/styx_sim
-bin/
-lib/
+# Executables and libraries
+bin/*
+!bin/.gitkeep
+lib/*
+!lib/.gitkeep
 
 # Python
 .venv/
