@@ -1,9 +1,9 @@
 /**
- * Styx ISA Test Harness
+ * Styx Simulator - Test Harness
  *
  * Generic test runner for all instruction types
- * Compile: gcc isa_test_harness.c -o isa_test -I../src
- * Run: ./isa_test isa/test_addi.prg
+ * Build: cmake . && make
+ * Run: ./test/styx_sim isa/test_addi.prg
  */
 
 #include <stdio.h>
@@ -23,19 +23,19 @@
 #define C_RED     "\033[91m"
 #define C_BLUE    "\033[94m"
 
-// Include all implementation files directly (quick & dirty!)
-#include "../util/errors.c"
-#include "../src/core/reg_file.c"
-#include "../src/core/mem_storage.c"
-#include "../src/core/mem_loader.c"
-#include "../src/isa/decoder.c"
-#include "../src/isa/alu.c"
-#include "../src/core/control.c"
-#include "../src/handlers/exec_misc.c"
-#include "../src/handlers/exec_arith.c"
-#include "../src/handlers/exec_memory.c"
-#include "../src/handlers/exec_control.c"
-#include "../src/core/cpu.c"
+// Styx CPU Simulator Headers (linked via CMake)
+#include "cpu.h"
+#include "registers.h"
+#include "memory.h"
+#include "decoder.h"
+#include "alu.h"
+#include "control.h"
+#include "common/types.h"
+#include "common/isa_defs.h"
+#include "common/reg_defs.h"
+#include "common/mem_map.h"
+#include "common/prg_format.h"
+#include "util/errors.h"
 
 // Snapshot of CPU state for comparison
 typedef struct {
