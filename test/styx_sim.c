@@ -24,18 +24,18 @@
 #define C_BLUE    "\033[94m"
 
 // Include all implementation files directly (quick & dirty!)
-#include "../src/utils/errors.c"
-#include "../src/core/registers/reg_file.c"
-#include "../src/core/memory/mem_file.c"
-#include "../src/core/memory/mem_loader.c"
-#include "../src/core/decoder/decoder.c"
-#include "../src/core/alu/alu.c"
-#include "../src/core/control/control.c"
-#include "../src/core/control/exec_misc.c"
-#include "../src/core/control/exec_arith.c"
-#include "../src/core/control/exec_memory.c"
-#include "../src/core/control/exec_control.c"
-#include "../src/core/cpu/cpu.c"
+#include "../util/errors.c"
+#include "../src/core/reg_file.c"
+#include "../src/core/mem_storage.c"
+#include "../src/core/mem_loader.c"
+#include "../src/isa/decoder.c"
+#include "../src/isa/alu.c"
+#include "../src/core/control.c"
+#include "../src/handlers/exec_misc.c"
+#include "../src/handlers/exec_arith.c"
+#include "../src/handlers/exec_memory.c"
+#include "../src/handlers/exec_control.c"
+#include "../src/core/cpu.c"
 
 // Snapshot of CPU state for comparison
 typedef struct {

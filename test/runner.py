@@ -39,7 +39,7 @@ def strip_ansi(text):
     return ansi_escape.sub('', text)
 
 def parse_register_value(output, reg_name):
-    """Extract register value from isa_test output"""
+    """Extract register value from styx_sim output"""
     clean_output = strip_ansi(output)
     final_state_section = clean_output.split('FINAL STATE')[-1]
     pattern = rf'│\s+{reg_name}\s+│\s+(0x[0-9A-F]+)\s+│'
@@ -181,7 +181,7 @@ def run_single_test(test_file, args):
     delay(0.3)
 
     result = subprocess.run(
-        ["./isa_test", str(prg_file)],
+        ["./styx_sim", str(prg_file)],
         capture_output=True,
         text=True
     )
@@ -327,7 +327,7 @@ Examples:
 
 Workflow:
   1. Generate .prg file from test
-  2. Run simulation with isa_test harness
+  2. Run simulation with styx_sim harness
   3. Verify expected vs actual register values
         """
     )
