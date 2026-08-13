@@ -60,8 +60,13 @@ def parse_cycles(output):
     return None
 
 def parse_timing(output):
-    """Extract timing from FINAL STATE header"""
+    """Extract timing from HALT message"""
     clean_output = strip_ansi(output)
+    # Try HALT message first (newer format)
+    match = re.search(r'\[HALT\] CPU halted at cycle \d+ \(([\d.]+) ms\)', clean_output)
+    if match:
+        return match.group(1)
+    # Fallback to FINAL STATE header (old format)
     match = re.search(r'FINAL STATE \(\d+ cycles, ([\d.]+) ms\)', clean_output)
     if match:
         return match.group(1)
