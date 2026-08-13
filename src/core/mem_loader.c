@@ -1,7 +1,7 @@
 #include "memory.h"
-#include "../../common/prg_format.h"
-#include "../../common/mem_map.h"
-#include "../../utils/errors.h"
+#include "common/prg_format.h"
+#include "common/mem_map.h"
+#include "util/errors.h"
 
 #include <stdio.h>
 #include <string.h>

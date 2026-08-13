@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "registers.h"
-#include "../../common/reg_defs.h"
-#include "../../utils/errors.h"
+#include "common/reg_defs.h"
+#include "util/errors.h"
 
 
 /*----------------------------------------------------------------------------

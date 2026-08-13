@@ -8,13 +8,13 @@
 **/
 
 #include "cpu.h"
-#include "../registers/registers.h"
-#include "../memory/memory.h"
-#include "../decoder/decoder.h"
-#include "../control/control.h"
-#include "../../common/types.h"
-#include "../../common/isa_defs.h"
-#include "../../utils/errors.h"
+#include "registers.h"
+#include "memory.h"
+#include "decoder.h"
+#include "control.h"
+#include "common/types.h"
+#include "common/isa_defs.h"
+#include "util/errors.h"
 
 #include <stdlib.h>
 #include <stddef.h>
@@ -245,11 +245,15 @@ error_t cpu_step(CPU_t *cpu)
 
     // Update stats
     cpu->cycle_count++;
+
     // Check for HALT pattern (JMP to self)
+    // NOTE: Must check BEFORE execute, but we already executed!
+    // So check if we jumped to the CURRENT instruction (PC before increment was 'pc')
     if (decoded.opcode == OP_JMP) {
-        addr_t new_pc = reg_read_pc(cpu->registers);
+        addr_t current_pc = reg_read_pc(cpu->registers);  // PC after JMP
         addr_t jump_target = decoded.fields.j_type.addr;
-        if (jump_target == new_pc) {
+        // Check if we jumped to the same address we just executed from
+        if (jump_target == pc) {  // 'pc' was captured before execute
             cpu->state = CPU_STATE_HALTED;
         }
     }

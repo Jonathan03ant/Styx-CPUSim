@@ -5,10 +5,10 @@
   * Handlers for: LOAD, STORE
   */
 
-#include "control_internal.h"
-#include "../memory/memory.h"
-#include "../decoder/decoder.h"
-#include "../../common/isa_defs.h"
+#include "isa_handlers.h"
+#include "memory.h"
+#include "decoder.h"
+#include "common/isa_defs.h"
 #include <stddef.h>
 
 // ======= LOAD ======= //

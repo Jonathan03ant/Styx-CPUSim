@@ -12,6 +12,10 @@
 #define CONTROL_INTERNAL_H
 
 #include "control.h"
+#include "cpu.h"
+#include "decoder.h"
+#include "common/isa_defs.h"
+#include "util/errors.h"
 
 //* ARITHMETIC HANDLERS (exec_arith.c) //
 error_t exec_add(CPU_t *cpu, DecodedInstruction_t *insn);
@@ -26,7 +30,7 @@ error_t exec_store(CPU_t* cpu, DecodedInstruction_t* insn);
 
 //* CONTROL HANDLERS (exec_control.c) //
 error_t exec_jmp(CPU_t *cpu, DecodedInstruction_t *insn);
-error_t exec_js(CPU_t *cpu, DecodedInstruction_t *insn);
+error_t exec_jz(CPU_t *cpu, DecodedInstruction_t *insn);
 error_t exec_jnz(CPU_t *cpu, DecodedInstruction_t *insn);
 error_t exec_call(CPU_t *cpu, DecodedInstruction_t *insn);
 error_t exec_ret(CPU_t *cpu, DecodedInstruction_t *insn);

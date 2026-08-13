@@ -5,10 +5,10 @@
   * Handlers for: ADD, SUB, MUL, DIV, ADDI
   */
 
-#include "control_internal.h"
-#include "../alu/alu.h"
-#include "../decoder/decoder.h"
-#include "../../common/isa_defs.h"
+#include "isa_handlers.h"
+#include "alu.h"
+#include "decoder.h"
+#include "common/isa_defs.h"
 #include <stddef.h>
 
 // ======= ADD ======= //

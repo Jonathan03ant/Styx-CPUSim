@@ -5,10 +5,10 @@
   * Handlers for: NOP, MOV, CMP, LUI
   */
 
-#include "control_internal.h"
-#include "../alu/alu.h"
-#include "../decoder/decoder.h"
-#include "../../common/isa_defs.h"
+#include "isa_handlers.h"
+#include "alu.h"
+#include "decoder.h"
+#include "common/isa_defs.h"
 #include <stddef.h>
 
 // ======= NOP ======= //
@@ -96,6 +96,10 @@ error_t exec_cmp(CPU_t* cpu, DecodedInstruction_t* insn){
         return err;
     }
 
+    reg_set_flags(cpu->registers, result_flags);
+    if (err != ERR_OK) {
+        return err;
+    }
     return ERR_OK;
 }
 

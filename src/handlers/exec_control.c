@@ -5,11 +5,11 @@
   * Handlers for: JMP, JZ, JNZ, CALL, RET
   */
 
-#include "control_internal.h"
-#include "../registers/registers.h"
-#include "../decoder/decoder.h"
-#include "../../common/isa_defs.h"
-#include "../../common/reg_defs.h"
+#include "isa_handlers.h"
+#include "registers.h"
+#include "decoder.h"
+#include "common/isa_defs.h"
+#include "common/reg_defs.h"
 #include <stddef.h>
 
 // ======= JMP ======= //

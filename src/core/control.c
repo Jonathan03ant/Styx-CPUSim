@@ -8,9 +8,9 @@
  */
 
 #include "control.h"
-#include "control_internal.h"
-#include "../decoder/decoder.h"
-#include "../../common/isa_defs.h"
+#include "../handlers/isa_handlers.h"
+#include "decoder.h"
+#include "common/isa_defs.h"
 #include <stddef.h>
 
 // *Dispatch Table //
@@ -77,7 +77,7 @@ error_t ctrl_execute(CPU_t *cpu, DecodedInstruction_t *decoded){
         return err;
     }
 
-    if (!instruction_is_ctl_flow(decoded)) {
+    if (!instruction_is_ctl_flow(decoded->opcode)) {
         reg_increment_pc(cpu->registers);
     }
 

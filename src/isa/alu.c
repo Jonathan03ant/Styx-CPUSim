@@ -4,7 +4,7 @@
   */
 
 #include "alu.h"
-#include "../../common/reg_defs.h"
+#include "common/reg_defs.h"
 #include <stddef.h>
 #include <stdbool.h>
 

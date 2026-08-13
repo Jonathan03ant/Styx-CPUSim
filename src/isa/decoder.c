@@ -7,9 +7,9 @@
   */
 
 #include "decoder.h"
-#include "../../common/isa_defs.h"
-#include "../../core/registers/registers.h"
-#include "../../utils/errors.h"
+#include "common/isa_defs.h"
+#include "registers.h"
+#include "util/errors.h"
 #include <stddef.h>
 
 // Forward declarations for internal format decoders
@@ -309,4 +309,5 @@ error_t decode_instruction(insn_t raw_instruction, DecodedInstruction_t *decoded
     if (!is_valid_instruction(decoded)){
         return ERR_INVALID_INSTRUCTION;
     }
+    return ERR_OK;
 }

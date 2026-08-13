@@ -4,8 +4,8 @@
   */
 
 #include "memory.h"
-#include "../../common/mem_map.h"
-#include "../../utils/bitops.h"
+#include "common/mem_map.h"
+#include "util/bitops.h"
 #include <stdlib.h>
 #include <string.h>
 
