@@ -18,6 +18,11 @@
 struct Memory_s {
     byte_t data[MEM_TOTAL_SIZE];                // 64KB memory array (0x0000 - 0xFFFF)
     MemMode_e mode;                             // Protection mode (LOADING or RUNNING)
+
+    // Program metadata (from .prg header)
+    uint16_t code_used;                         // Bytes used in code region
+    uint16_t data_used;                         // Bytes used in data region
+    uint16_t bss_used;                          // Bytes used in bss section
 };
 
 
@@ -44,6 +49,12 @@ error_t mem_init(Memory_t *mem)
 
     memset(mem->data, 0, MEM_TOTAL_SIZE);
     mem->mode = MEM_LOAD_MODE;
+
+    // Initialize metadata
+    mem->code_used = 0;
+    mem->data_used = 0;
+    mem->bss_used = 0;
+
     return ERR_OK;
 }
 
@@ -180,4 +191,22 @@ error_t mem_get_protection(Memory_t *mem, MemMode_e *mode)
     }
     *mode = mem->mode;
     return ERR_OK;
+}
+
+/**
+ * Get memory usage statistics
+ * Returns bytes used in code, data, and bss regions
+ */
+void mem_get_usage(const Memory_t* mem, uint16_t* code, uint16_t* data, uint16_t* bss)
+{
+    if (mem == NULL) {
+        if (code) *code = 0;
+        if (data) *data = 0;
+        if (bss) *bss = 0;
+        return;
+    }
+
+    if (code) *code = mem->code_used;
+    if (data) *data = mem->data_used;
+    if (bss) *bss = mem->bss_used;
 }

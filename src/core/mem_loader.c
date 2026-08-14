@@ -108,6 +108,11 @@ error_t mem_load_program(Memory_t *mem, const char *filename)
         mem_write_byte(mem, bss_start + i, 0x00);
     }
 
+    // Save program metadata for memory statistics
+    mem->code_used = header.code_size;
+    mem->data_used = header.data_size;
+    mem->bss_used = header.bss_size;
+
     // Set memory to execute mode
     mem_set_protection(mem, MEM_EXECUTE_MODE);
     fclose(fp);

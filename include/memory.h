@@ -42,4 +42,8 @@ error_t mem_get_protection(Memory_t *mem, MemMode_e *mode);
 
 /* Program Loader */
 error_t mem_load_program(Memory_t *mem, const char *filename);
+
+/* Memory Usage Statistics */
+void mem_get_usage(const Memory_t* mem, uint16_t* code, uint16_t* data, uint16_t* bss);
+
 #endif /* STYX_MEMORY_H */
