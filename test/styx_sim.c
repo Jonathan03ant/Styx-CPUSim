@@ -37,14 +37,7 @@
 #include "common/prg_format.h"
 #include "util/errors.h"
 
-// Snapshot of CPU state for comparison
-typedef struct {
-    regval_t regs[16];
-    addr_t pc;
-    flags_t flags;
-    addr_t mar;
-    word_t mdr;
-} CPUSnapshot_t;
+// CPUSnapshot_t now defined in common/types.h
 
 void take_snapshot(CPU_t *cpu, CPUSnapshot_t *snap) {
     for (int i = 0; i < 16; i++) {
@@ -54,6 +47,10 @@ void take_snapshot(CPU_t *cpu, CPUSnapshot_t *snap) {
     snap->flags = reg_get_flags(cpu->registers);
     snap->mar = cpu->MAR;
     snap->mdr = cpu->MDR;
+    snap->ir = cpu->IR;
+    snap->state = (int)cpu->state;
+    snap->cycle_count = cpu->cycle_count;
+    snap->last_error = (int)cpu->last_error;
 }
 
 void print_changes(CPUSnapshot_t *before, CPUSnapshot_t *after) {
