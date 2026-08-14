@@ -31,5 +31,11 @@ CPUSnapshot_t styx_get_snapshot(const Simulator_t* sim);                        
 error_t styx_read_memory(const Simulator_t* sim, addr_t address, word_t* value);                    //* Read a word from memory at specified address
 error_t styx_get_memory_stats(const Simulator_t* sim, MemoryStats_t* stats);                        //* Get memory usage statistics for all regions
 error_t styx_disassemble(const Simulator_t* sim, addr_t address, char* buffer, size_t buf_size);    //* Disassemble instruction at address into human-readable text
-
+error_t styx_load_from_bytes(
+    Simulator_t* sim,
+    const uint8_t* code_bytes,
+    size_t code_size,
+    const uint8_t* data_bytes,
+    size_t data_size
+);                                                                                                  //* Load program from memory buffers (no file I/O)
 #endif /* STYX_API_H */

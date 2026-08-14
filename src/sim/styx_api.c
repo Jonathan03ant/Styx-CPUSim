@@ -128,6 +128,36 @@ error_t styx_load_program(Simulator_t* sim, const char* filepath)
     return ERR_OK;
 }
 
+//* Load program from memory buffers (no file I/O)
+error_t styx_load_from_bytes(
+    Simulator_t* sim,
+    const uint8_t* code_bytes,
+    size_t code_size,
+    const uint8_t* data_bytes,
+    size_t data_size
+){
+    if (!sim || !code_bytes || code_size == 0) {
+        return ERR_NULL_POINTER;
+    }
+
+    error_t err = mem_load_from_bytes(
+        sim->cpu->memory,
+        code_bytes, code_size,
+        data_bytes, data_size
+    );
+
+    if (err != ERR_OK) {
+        return err;
+    }
+
+    reg_write_pc(sim->cpu->registers, MEM_CODE_START);
+
+    // Set CPU state to LOADED
+    sim->cpu->state = CPU_STATE_LOADED;
+
+    return ERR_OK;
+}
+
 //* Reset simulator to initial state
 error_t styx_reset(Simulator_t* sim)
 {
