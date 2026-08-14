@@ -19,6 +19,7 @@ add_subdirectory(util)                              # Build utilities first (no 
 add_subdirectory(src/core)                          # Build core library
 add_subdirectory(src/isa)                           # Build ISA library
 add_subdirectory(src/handlers)                      # Build handlers library
+add_subdirectory(src/sim)                           # Build simulator API facade
 
 # Combined shared library for Python TUI
 # Links all object files from static libraries into libstyx.so
@@ -27,6 +28,7 @@ add_library(styx SHARED
     $<TARGET_OBJECTS:styx-core>
     $<TARGET_OBJECTS:styx-isa>
     $<TARGET_OBJECTS:styx-handlers>
+    $<TARGET_OBJECTS:styx-sim>
 )
 
 # Test executable comes last (depends on libraries)
