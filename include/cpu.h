@@ -62,6 +62,7 @@ error_t cpu_run(CPU_t *cpu);
 error_t cpu_run_for(CPU_t *cpu, uint32_t n);
 
 void cpu_reset(CPU_t *cpu);
+void cpu_soft_reset(CPU_t *cpu);
 void cpu_halt(CPU_t *cpu);
 
 void cpu_print_state(CPU_t* cpu);

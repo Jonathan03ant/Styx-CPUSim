@@ -139,6 +139,46 @@ void cpu_reset(CPU_t *cpu)
     cpu->last_error = ERR_OK;                   // Clear any previous errors
 }
 
+//* Soft reset - restart loaded program without wiping memory
+void cpu_soft_reset(CPU_t *cpu)
+{
+    /*
+     * Soft reset - restart loaded program from entry point
+     * Resets PC to 0x0100, clears registers/FLAGS
+     * Memory and loaded program remain intact
+     * State remains LOADED (not IDLE)
+     */
+
+    if (cpu == NULL) {
+        return;
+    }
+
+    // Only valid if program is loaded
+    if (cpu->state != CPU_STATE_LOADED &&
+        cpu->state != CPU_STATE_RUNNING &&
+        cpu->state != CPU_STATE_HALTED) {
+        return;
+    }
+
+    // Reset registers (clears all to 0, sets SP to 0xFFFF)
+    reg_reset(cpu->registers);
+
+    // Override PC to entry point (0x0100, not 0x0000)
+    reg_write_pc(cpu->registers, 0x0100);
+
+    // Clear internal registers
+    cpu->MAR = 0x0000;
+    cpu->MDR = 0x0000;
+    cpu->IR = 0x0000;
+
+    // Reset execution state
+    cpu->cycle_count = 0;
+    cpu->last_error = ERR_OK;
+
+    // Keep state as LOADED (program still in memory!)
+    cpu->state = CPU_STATE_LOADED;
+}
+
 //* Manually halt CPU execution
 void cpu_halt(CPU_t *cpu)
 {
