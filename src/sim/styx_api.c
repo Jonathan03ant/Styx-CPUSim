@@ -101,6 +101,7 @@ error_t styx_load_program(Simulator_t* sim, const char* filepath)
     /*
        * Validate inputs
        * Call memory loader
+       * Set PC to entry point (0x0100)
        * Return error code
     */
 
@@ -118,6 +119,12 @@ error_t styx_load_program(Simulator_t* sim, const char* filepath)
         return err;
     }
 
+    // Set PC to code entry point (0x0100)
+    reg_write_pc(sim->cpu->registers, 0x0100);
+
+    // Set CPU state to LOADED
+    sim->cpu->state = CPU_STATE_LOADED;
+
     return ERR_OK;
 }
 
@@ -125,17 +132,24 @@ error_t styx_load_program(Simulator_t* sim, const char* filepath)
 error_t styx_reset(Simulator_t* sim)
 {
     /*
-       * Validate simulator
-       * Call cpu_reset (resets PC, registers, FLAGS)
-       * Memory remains loaded
+       * Reset to post-load state
+       * Clears registers, resets PC to entry point
+       * Memory and loaded program remain intact
     */
 
     if (sim == NULL || sim->cpu == NULL) {
         return ERR_NULL_POINTER;
     }
 
-    // Reset CPU state (PC=0x0100, registers cleared, FLAGS=0)
-    cpu_reset(sim->cpu);
+    // Check if program is loaded
+    if (sim->cpu->state != CPU_STATE_LOADED &&
+        sim->cpu->state != CPU_STATE_RUNNING &&
+        sim->cpu->state != CPU_STATE_HALTED) {
+        return ERR_INVALID_CPU_STATE;
+    }
+
+    // Soft reset (keeps program loaded)
+    cpu_soft_reset(sim->cpu);
 
     return ERR_OK;
 }
