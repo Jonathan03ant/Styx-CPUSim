@@ -85,4 +85,15 @@ typedef struct {
     int last_error;           // Last error code (cast to error_t when using)
 } CPUSnapshot_t;
 
+/**
+ * Memory Usage Statistics
+ * Tracks how many bytes are used in each memory region
+ */
+typedef struct {
+    uint16_t code_used;      // Bytes used in code region (0x0100-0x1FFF)
+    uint16_t data_used;      // Bytes used in data region (0x2000-0x7FFF)
+    uint16_t heap_used;      // Bytes used in heap region (0x8000-0xDFFF)
+    uint16_t stack_used;     // Bytes used in stack region (0xE000-0xFFFF)
+} MemoryStats_t;
+
 #endif /* STYX_TYPES_H */
