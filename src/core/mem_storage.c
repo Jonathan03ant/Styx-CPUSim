@@ -194,6 +194,20 @@ error_t mem_get_protection(Memory_t *mem, MemMode_e *mode)
 }
 
 /**
+ * Set memory usage metadata (called by loader after loading program)
+ */
+void mem_set_usage(Memory_t* mem, uint16_t code, uint16_t data, uint16_t bss)
+{
+    if (mem == NULL) {
+        return;
+    }
+
+    mem->code_used = code;
+    mem->data_used = data;
+    mem->bss_used = bss;
+}
+
+/**
  * Get memory usage statistics
  * Returns bytes used in code, data, and bss regions
  */

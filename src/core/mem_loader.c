@@ -109,9 +109,7 @@ error_t mem_load_program(Memory_t *mem, const char *filename)
     }
 
     // Save program metadata for memory statistics
-    mem->code_used = header.code_size;
-    mem->data_used = header.data_size;
-    mem->bss_used = header.bss_size;
+    mem_set_usage(mem, header.code_size, header.data_size, header.bss_size);
 
     // Set memory to execute mode
     mem_set_protection(mem, MEM_EXECUTE_MODE);
