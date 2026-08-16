@@ -291,6 +291,8 @@ class StyxTUI(App):
             # Update all panels
             cpu_status = self.query_one(CPUStatusView)
             disassembly_view = self.query_one(DisassemblyView)
+            register_panel = self.query_one(RegisterPanel)
+            memory_panel = self.query_one(MemoryPanel)
 
             # Clear executed instructions
             disassembly_view.executed_addrs.clear()
@@ -302,7 +304,17 @@ class StyxTUI(App):
             cpu_status.update_snapshot(snapshot)
             disassembly_view.update_from_snapshot(snapshot)
 
-            footer.log("✓ CPU Reset | PC=0x0100 | State=IDLE")
+            # Reset register panel (clear highlights, update values)
+            register_panel.snapshot = snapshot
+            register_panel.highlight_regs.clear()
+            register_panel.render_registers()
+
+            # Reset memory panel (clear highlights, reset PC marker)
+            memory_panel.highlight_addr = None
+            memory_panel.current_pc = 0x0100
+            memory_panel.render_memory()
+
+            footer.log("✓ CPU Reset | PC=0x0100 | State=LOADED")
 
 
 if __name__ == "__main__":
