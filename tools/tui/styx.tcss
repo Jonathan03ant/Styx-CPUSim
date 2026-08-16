@@ -84,7 +84,7 @@ ControlBar {
 }
 
 #code {
-    width: 45%;
+    width: 35%;
     height: 100%;
     background: $boost;
     border: tall green;
@@ -92,40 +92,46 @@ ControlBar {
     layout: vertical;
 }
 
-#file-list {
-    height: 20%;
+#cpu-status {
+    height: 40%;
     background: $boost;
     border-bottom: tall green;
     overflow-y: auto;
 }
 
-.file-list-header {
-    height: 1;
-    text-style: bold;
-}
-
-.no-files-msg {
-    height: 1;
-    color: $text-muted;
-}
-
-.file-item {
-    height: 1;
-    width: 100%;
-}
-
-#code-view {
-    height: 80%;
+#disassembly-view {
+    height: 60%;
     background: $boost;
+    overflow-y: auto;
+    scrollbar-size-vertical: 1;
 }
 
 #memory {
-    width: 30%;
+    width: 40%;
     height: 100%;
     background: $boost;
     border: tall green;
-    padding: 1;
+    padding: 0;
+    layout: vertical;
 }
+
+#memory-header {
+    height: auto;
+    padding: 1;
+    background: $boost;
+}
+
+#memory-scroll {
+    height: 1fr;
+    background: $boost;
+}
+
+#memory-content {
+    height: auto;
+    padding: 0 1;
+    background: $boost;
+}
+
 
 /* Footer */
 Footer {
@@ -135,4 +141,21 @@ Footer {
     color: $text;
     border: tall green;
     text-style: bold;
+}
+
+#footer-left {
+    width: 20%;
+}
+
+#footer-center {
+    width: 60%;
+    content-align: center middle;
+}
+
+#footer-right {
+    width: 20%;
+    content-align: right middle;
+    padding-right: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

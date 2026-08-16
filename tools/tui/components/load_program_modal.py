@@ -41,7 +41,7 @@ class LoadProgramModal(ModalScreen):
     def compose(self):
         with Container(id="load-dialog"):
             yield Label("Enter file path:", id="load-label")
-            yield Input(placeholder="/path/to/program.txt", id="load-input")
+            yield Input(placeholder="/path/to/program.prg", id="load-input")
             with Horizontal(id="load-buttons"):
                 yield Button("Load", variant="primary", id="load-btn")
                 yield Button("Cancel", variant="default", id="cancel-btn")

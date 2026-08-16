@@ -19,9 +19,18 @@ class WriteProgramModal(ModalScreen):
         padding: 1;
     }
 
-    #write-text-area {
+    #code-text-area {
         height: 1fr;
         margin-bottom: 1;
+    }
+
+    #data-text-area {
+        height: 1fr;
+        margin-bottom: 1;
+    }
+
+    #code-label, #data-label {
+        margin-top: 1;
     }
 
     #write-buttons {
@@ -40,29 +49,33 @@ class WriteProgramModal(ModalScreen):
 
     def compose(self):
         with Container(id="write-dialog"):
-            yield Label("Write Program (hex instructions, one per line)", id="write-label")
-            yield TextArea(self.initial_text, id="write-text-area")
+            yield Label("CODE (hex, one per line):", id="code-label")
+            yield TextArea("", id="code-text-area")
+            yield Label("DATA (hex, one per line, optional):", id="data-label")
+            yield TextArea("", id="data-text-area")
             with Horizontal(id="write-buttons"):
                 yield Button("Save", variant="primary", id="save-btn")
                 yield Button("Cancel", variant="default", id="cancel-btn")
 
     def on_mount(self):
-        """Focus text area when modal opens"""
-        text_area = self.query_one(TextArea)
-        text_area.focus()
+        """Focus CODE text area when modal opens"""
+        code_area = self.query_one("#code-text-area", TextArea)
+        code_area.focus()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """Handle button clicks"""
         if event.button.id == "save-btn":
-            # Get text content
-            text_area = self.query_one(TextArea)
-            program_text = text_area.text
+            code_area = self.query_one("#code-text-area", TextArea)
+            data_area = self.query_one("#data-text-area", TextArea)
 
-            if program_text.strip():
-                # Dismiss with program text to trigger filename dialog
-                self.dismiss(program_text)
+            code_text = code_area.text.strip()
+            data_text = data_area.text.strip()
+
+            if code_text:
+                # Return both CODE and DATA text
+                self.dismiss((code_text, data_text))
             else:
-                # Empty program, just close
+                # Empty CODE section
                 self.dismiss(None)
         else:  # cancel-btn
             self.dismiss(None)
