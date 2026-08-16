@@ -110,7 +110,7 @@ class StyxTUI(App):
             self.handle_reset()
         else:
             # Placeholder for other buttons
-            footer.log(f"DEBUG: {event.action} clicked (not implemented)")
+            footer.log(f"{event.action} clicked (not implemented)")
 
 
     async def handle_write_program_result(self, result: tuple | None):
@@ -240,7 +240,6 @@ class StyxTUI(App):
         is_load_store = (opcode == 0x2 or opcode == 0x3)  # LOAD=0x2, STORE=0x3
 
         if is_load_store and snapshot_after.mar != 0x0000:
-            footer.log(f"→ MEMORY DATA: Accessing 0x{snapshot_after.mar:04X}")
             memory_panel.auto_switch_to_address(snapshot_after.mar)
             memory_panel.flash_address(snapshot_after.mar)
             await asyncio.sleep(0.6)
